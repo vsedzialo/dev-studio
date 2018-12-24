@@ -60,15 +60,17 @@
           transition: transform 0.5s;
         }
         &:hover {
-          color:#fdb302;
+          color:#fdb302 !important;
         }
       }
 
     }
   }
   .cp-not-available {
-    color: #999;
     display:none;
+    .cp-name {
+      color: #999 !important;
+    }
     &.ds-show {
       display:block;
     }

@@ -167,6 +167,13 @@ abstract class Field {
             $html_label = '<label class="avaf-label" for="' . esc_attr( $this->id ) . '">';
             if ( ! empty( $this->params['texts']['label'] ) ) {
                 $html_label .= $this->params['texts']['label'];
+
+                // Tip
+                if (!empty($this->params['texts']['tip'])) {
+                    $html_label .= '<span class="avaf-tip" data-tippy-content = "' . esc_attr( $this->params['texts']['tip'] ) . '">';
+                    if (isset($this->params['texts']['tip_icon'])) $html_label .= ' '.$this->params['texts']['tip_icon'];
+                    $html_label .= '</span>';
+                }
             }
             if ( ! empty( $this->params['texts']['subtitle'] ) ) {
                 $html_label .= ' <small style="">' . $this->params['texts']['subtitle'] . '</small>';

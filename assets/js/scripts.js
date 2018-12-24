@@ -12,6 +12,8 @@
 
         response: {},
 
+        requestProgress: 0,
+
         init: function () {
 
             $(document).ready(function () {
@@ -184,8 +186,10 @@
                     $cp.toggleClass('ds-show');
                     if ($cp.hasClass('ds-show')) {
                         $(this).parents('.ds-checkpoints').addClass('ds-active');
+                        $('#dev-studio .ds-tab-checkpoints').show();
                     } else {
                         $(this).parents('.ds-checkpoints').removeClass('ds-active');
+                        $('#dev-studio .ds-tab-checkpoints').hide();
                     }
                 });
 
@@ -248,6 +252,8 @@
                                     el.init();
                                 });
                             }
+                            tippy('.avaf-tip', { theme: 'ds' });
+                            console.log( 'tippy' );
                         });
                     } else {
                         DevStudio.setDataInfo('');
@@ -710,6 +716,10 @@
                 type: "POST",
                 dataType: 'json',
                 data: data,
+                beforeSend: function () {
+                    setTimeout(DevStudio.preloader, 1000);
+                    DevStudio.requestProgress = true;
+                },
                 success: function (response) {
                     //console.log(response);
 
@@ -718,9 +728,20 @@
                     if (response && response.result && response.result == 'ok') {
 
                         if (callback != undefined) callback.apply(DevStudio);
+                        tippy('.ds-tip', { theme: 'ds', placement: 'right' });
                     }
-                }
+                },
+                complete: function () {
+                    DevStudio.requestProgress = false;
+                    $('#dev-studio .ds-preloader').hide();
+                },
             });
+        },
+
+        preloader: function() {
+            if (DevStudio.requestProgress) {
+                $('#dev-studio .ds-preloader').show();
+            }
         },
 
         setCondition: function() {

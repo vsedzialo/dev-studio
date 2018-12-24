@@ -8,6 +8,7 @@
     border: 2px #ddd solid;
     background-color: #fff;
     flex-basis: 100%;
+    min-height: 0;
 
     &.ds-col-2 {
       #dev-studio-data,
@@ -19,7 +20,7 @@
         border-right:1px #ddd dashed;
       }
       #dev-studio-data-info {
-        padding: 0 5px 5px 5px;
+        padding: 0 3px 3px 3px;
       }
     }
   }
@@ -79,7 +80,7 @@
   }
 
   #dev-studio-data {
-    padding:5px;
+    padding:3px;
     flex-basis:100%;
 
     .ds-panel {

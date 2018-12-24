@@ -42,9 +42,9 @@
 
   .ds-right-panel {
     display:flex;
+    flex:1;
     flex-direction:column;
     background-color:#fafafa;
-    width:100%;
   }
 
   .ds-bg-off {

@@ -64,7 +64,7 @@
                                 ?>
                             </select></div>
                     </div>
-                    <div class="ds-icons"><span class="fa fa-cog"></span></div>
+                    <div class="ds-icons ds-tip" data-tippy-content="<?php echo __('Checkpoints', 'dev-studio'); ?>"><span class="fa ds-tip fa-cog" data-tippy-content="<?php echo __('Checkpoints', 'dev-studio'); ?>"></span></div>
                 </div>
 
             </div>
@@ -77,6 +77,7 @@
             <div class="ds-tabs-data">
 
                 <div class="ds-tabs">
+                    <div class="ds-tab ds-tab-checkpoints ds-active"><?php echo __('Checkpoints', 'dev-studio'); ?></div>
                     <div class="ds-tabs-units"></div>
                 </div>
 
@@ -114,6 +115,12 @@
             </div>
 
         </div>
+    </div>
+
+    <!-- Preloader -->
+    <div class="ds-preloader">
+        <div class="ds-pl-image"><img src="<?php echo DevStudio()->url('assets').'images/logo-loop.svg'; ?>"></div>
+        <div class="ds-pl-text"></div>
     </div>
 
 </div>

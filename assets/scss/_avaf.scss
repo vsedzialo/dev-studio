@@ -161,6 +161,17 @@
       }
     }
 
+    .avaf-tip {
+      font-size:15px;
+      &:hover {
+        .fa {
+          color: #999;
+          cursor: default;
+        }
+      }
+    }
+
+
     // Field
     .avaf-field {
       display: block;

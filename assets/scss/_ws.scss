@@ -7,6 +7,7 @@
     width:100%;
     transition: 1s;
     flex-basis: 100%;
+    min-height: 0;
 
     .ds-tabs-components {
       display: flex;
@@ -40,6 +41,7 @@
       flex-direction: column;
       width:100%;
       height:100%;
+      min-height: 0;
 
       .ds-tabs {
         display: flex;
@@ -49,6 +51,15 @@
         .ds-tabs-units {
           display: flex;
           margin-left: 10px;
+        }
+        .ds-tab-checkpoints {
+          width:90px;
+          margin-left:10px;
+          margin-right:220px;
+          display:none;
+          border: 1px #eee7cc solid;
+          background-color: #fff7da;
+          color:#555;
         }
       }
 

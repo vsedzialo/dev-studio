@@ -39,7 +39,7 @@ class DevStudio {
         'general' => [
             'enabled' => 'yes',
             'access' => [
-                'only_admin' => 'no'
+                'only_admin' => 'yes'
             ],
             'appearance' => [
                 'unit_init' => 'Wordpress.Overview.Overview',
@@ -953,6 +953,7 @@ class DevStudio {
 function load_assets() {
     wp_enqueue_style( 'fontawesome', DevStudio()->url() . 'assets/css/fontawesome.css' );
     wp_enqueue_style( 'dev-studio', DevStudio()->url() . 'assets/css/styles.css' );
+    wp_enqueue_script( 'tippy', DevStudio()->url() . 'assets/libs/tippy/tippy.all.min.js' );
     wp_enqueue_script( 'dev-studio', DevStudio()->url() . 'assets/js/scripts.js', [ 'jquery' ] );
     $data = [
         'ajax_url' => '/wp-admin/admin-ajax.php',
