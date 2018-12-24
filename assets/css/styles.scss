@@ -1,0 +1,82 @@
+
+@import "../scss/variables.scss";
+@import "../scss/fonts.scss";
+@import "../scss/form.scss";
+@import "../scss/left-panel.scss";
+@import "../scss/bar.scss";
+@import "../scss/header.scss";
+@import "../scss/ws.scss";
+@import "../scss/data.scss";
+@import "../scss/data-table.scss";
+@import "../scss/actions.scss";
+@import "../scss/tools.scss";
+@import "../scss/avaf.scss";
+@import "../scss/utilities.scss";
+@import "../scss/other.scss";
+
+#dev-studio {
+  position: fixed;
+  top: 30px;
+  bottom:0;
+  left: 0;
+  width: 100%;
+  background-color: #eee;
+  z-index: 9998;
+  display: none;
+  color:$ds-color;
+  font-size:13px;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  *:not(.fa) {
+    font-family: 'Roboto',sans-serif !important;
+    color:$ds-color;
+  }
+
+  &.ds-show {
+    display:flex;
+    align-items:stretch;
+  }
+
+  .ds-right-panel {
+    display:flex;
+    flex-direction:column;
+    background-color:#fafafa;
+    width:100%;
+  }
+
+  .ds-bg-off {
+    position: absolute;
+    display:block;
+    content:'';
+    left:0;
+    top:0;
+    background-color: #eee;
+    z-index:10;
+    opacity:0;
+    transition: all 1s;
+  }
+  &.ds-off {
+    .ds-bg-off {
+      opacity:1;
+      bottom:0;
+      right:0;
+    }
+  }
+
+  label {
+    line-height:1em;
+  }
+}
+
+.ds-admin-bar {
+  a {
+    img {
+      float: left !important;
+      margin-top: 8px !important;
+      margin-right: 6px !important;
+    }
+  }
+}

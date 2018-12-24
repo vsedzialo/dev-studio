@@ -1,0 +1,76 @@
+
+#dev-studio-actions {
+  width:320px;
+  min-width:320px;
+  overflow:auto;
+  padding:5px 3px;
+  background-color:#fdfcf6;
+  border-right: 1px #ddd solid;
+  display:none;
+
+  &.ds-show {
+    display:block;
+  }
+
+  .cp-wrapper {
+    display:flex;
+    line-height: 1.4em;
+    font-size: 13px;
+    margin:2px;
+    padding:2px;
+    .cp-type {
+      flex-basis:5%;
+      background-color:#ddd;
+      border-radius:50%;
+      max-width:10px;
+      max-height:10px;
+      margin-top:4px;
+    }
+    .cp-type.wp {
+    }
+    .cp-type.plugin {
+    }
+    .cp-type.user {
+    }
+    .cp-name {
+      flex-basis:85%;
+      overflow:hidden;
+      font-size:12px;
+      padding-left:4px;
+      padding-right:4px;
+    }
+    .cp-check {
+      flex-basis:10%;
+    }
+    &.start {
+      border: 1px #eee7cc solid;
+      border-radius: 1px;
+      padding: 3px 2px 0 2px;
+      background-color: #fff7da;
+      .cp-name {
+        line-height:20px;
+      }
+      .cp-start {
+        cursor:pointer;
+        padding:2px;
+        transition: transform 0.5s;
+
+        &.expanded {
+          transform: rotate(180deg);
+          transition: transform 0.5s;
+        }
+        &:hover {
+          color:#fdb302;
+        }
+      }
+
+    }
+  }
+  .cp-not-available {
+    color: #999;
+    display:none;
+    &.ds-show {
+      display:block;
+    }
+  }
+}

@@ -1,0 +1,74 @@
+
+#dev-studio {
+  .ds-left-panel {
+    border-right:1px #e9e9e9 solid;
+    width:170px;
+    min-width:170px;
+    padding-top:15px;
+    background: url(../images/bg.jpg) #fff no-repeat;
+
+    // Logo
+    .ds-logo {
+      text-align:center;
+      z-index: 1000;
+      position:relative;
+      img {
+        float:none !important;
+      }
+    }
+
+    // Modules
+    .ds-modules {
+      margin-top:40px;
+      vertical-align: top;
+      display: flex;
+      flex-direction: column;
+      margin-left:2px;
+
+      .ds-tab-module {
+        padding: 7px 0 0 21px;
+        height: 32px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 1.4em;
+        position: relative;
+        color:#777;
+        transition:background-color .5s;
+        display:block;
+        margin-left:5px;
+        margin-bottom:3px;
+        border-top-left-radius:17px;
+        border-bottom-left-radius:17px;
+        background-color:#f6f6f6;
+
+        &:after {
+          content:'';
+          position:absolute;
+          left:6px;
+          top:11px;
+          width:8px;
+          height:8px;
+          border-radius:50%;
+          border:1px #d9d9d9 solid;
+        }
+
+        &:not(.ds-active):hover {
+          background-color:#f0f0f0;
+          &:after {
+            background-color:#e1e1e1;
+          }
+
+        }
+        &.ds-active {
+          background-color:$ds-color-blue;
+          color:#fff;
+          &:after {
+            background-color:#fff;
+            border-color:#fff;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+
+#dev-studio-tools {
+  width:39px;
+  margin-top:2px;
+  margin-bottom:2px;
+  padding:3px;
+  border-left:1px #ddd dashed;
+  line-height: 20px;
+
+  .ds-tool {
+    width:31px;
+    height:31px;
+    text-align:center;
+    border-radius:1px;
+    margin:0;
+    color:#666;
+    padding:6px 0 0 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display:block;
+
+    &:hover {
+      cursor: pointer;
+      span {
+        color: $ds-color-orange;
+      }
+    }
+    &.ds-active {
+      background-color:$ds-color-orange;
+      span {
+        color: #fff;
+      }
+    }
+    .fa {
+      font-size:20px;
+    }
+    .ds-tool-text {
+      line-height: 2em;
+      font-size:12px;
+    }
+    &.ds-toggle-info {
+      .fa {
+        font-size: 15px;
+        margin-top: 5px;
+      }
+    }
+
+  }
+}

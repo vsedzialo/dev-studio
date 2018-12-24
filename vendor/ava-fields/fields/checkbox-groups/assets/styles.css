@@ -1,0 +1,20 @@
+.avaf-field.avaf-field-checkbox-groups * {
+  line-height: 24px;
+}
+.avaf-field.avaf-field-checkbox-groups .avaf-cg-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 8px 0;
+}
+.avaf-field.avaf-field-checkbox-groups .avaf-cgroup {
+  margin-bottom: 10px;
+}
+.avaf-field.avaf-field-checkbox-groups .avaf-cgroup .avaf-cg-parent {
+  font-weight: bold;
+}
+.avaf-field.avaf-field-checkbox-groups .avaf-cgroup .avaf-cg-childs div {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/*# sourceMappingURL=styles.css.map */

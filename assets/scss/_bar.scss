@@ -1,0 +1,97 @@
+
+body {
+    // Admin bar
+    &.wp-admin {
+      #dev-studio-bar {
+        top: 32px;
+
+        &.expand {
+        }
+      }
+    }
+    // Public with admin bar
+    &:not(.wp-admin) {
+      &.admin-bar {
+        #dev-studio-bar {
+          top: 32px;
+        }
+      }
+    }
+
+    &.ds-bar-expand {
+      #dev-studio-bar {
+        height: $ds-bar-height;
+        .ds-bar-inner {
+          height: $ds-bar-height;
+        }
+      }
+      #wpwrap {
+        #adminmenuwrap {
+          padding-top: $ds-bar-height;
+        }
+        #wpbody {
+          padding-top: $ds-bar-height;
+        }
+      }
+    }
+
+}
+
+#dev-studio-bar {
+  height:0;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  z-index: 9999;
+  border-top:0 $ds-color-light-blue solid;
+  background-color:$ds-color-blue;
+
+  *:not(.fa) {
+    font-family: 'Roboto',sans-serif !important;
+  }
+
+  .ds-bar-icon {
+    position:absolute;
+    height:12px !important;
+    max-height:12px;
+    color:#fff;
+    padding:0 7px 0 7px !important;
+    left:50%;
+    transform: translateX(-50%);
+    line-height: 12px !important;
+    bottom:-11px;
+    cursor:pointer;
+    z-index: 0;
+    overflow:hidden;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: $ds-color-blue;
+
+    .fa {
+      position:relative;
+      font-family:FontAwesome !important;
+      font-size:11px !important;
+      line-height: 10px !important;
+      font-weight:normal !important;
+
+      display:block;
+    }
+  }
+  .ds-bar-inner {
+    overflow:hidden;
+    background-color:$ds-color-blue;
+    height:0;
+    line-height: 1.2em;
+
+    > div {
+      color:#fff;
+      display:inline-block;
+      padding:4px 7px 0 7px;
+      font-size:13px;
+      .fa {
+        padding-right: 3px;
+        font-size:13px;
+      }
+    }
+  }
+}

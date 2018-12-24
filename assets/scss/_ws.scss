@@ -1,0 +1,85 @@
+
+#dev-studio {
+  .ds-ws {
+    display: flex;
+    flex-direction:column;
+    padding:5px;
+    width:100%;
+    transition: 1s;
+    flex-basis: 100%;
+
+    .ds-tabs-components {
+      display: flex;
+      margin-bottom:15px;
+      margin-left:5px;
+      min-height:34px;
+      line-height: 1em;
+
+      .ds-component {
+        padding:7px 10px;
+        font-size:13px;
+        position:relative;
+        border-bottom:2px #eaeaea solid;
+        margin-right:3px;
+        height:32px;
+        transition:all .5s;
+
+        &.ds-active {
+          color:$ds-color-blue;
+          border-bottom:2px $ds-color-blue solid;
+        }
+        &:not(.ds-active):hover {
+          border-bottom:2px $ds-color-blue solid;
+          cursor:pointer;
+        }
+      }
+    }
+
+    .ds-tabs-data {
+      display: flex;
+      flex-direction: column;
+      width:100%;
+      height:100%;
+
+      .ds-tabs {
+        display: flex;
+        min-height: 30px;
+
+
+        .ds-tabs-units {
+          display: flex;
+          margin-left: 10px;
+        }
+      }
+
+    }
+
+    .ds-unit, .ds-tab {
+      display: flex;
+      border-top-left-radius:2px;
+      border-top-right-radius:2px;
+      margin-right:3px;
+      padding:5px 7px;
+      font-size:13px;
+      position:relative;
+      /*background-color: $ds-color-lightest-blue;*/
+      transition:all .5s;
+      color:#666;
+      border-color:#ddd;
+      border-style:solid;
+      border-width:1px 1px 0 1px;
+
+      &.ds-active {
+        background-color: $ds-color-blue;
+        border-color:$ds-color-blue;
+        color:#fff;
+      }
+      &:not(.ds-active):hover {
+        background-color: #f5f5f5;
+        border-color:#ccc;
+        color:#555;
+        cursor:pointer;
+      }
+    }
+  }
+}

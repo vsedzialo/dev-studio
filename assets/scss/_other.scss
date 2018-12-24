@@ -1,0 +1,143 @@
+
+#dev-studio {
+
+  // On - Off
+  .ds-on-off {
+    border-radius:3px;
+    width:60px;
+    height:26px;
+    cursor:pointer;
+    background-color:#29d73e;
+    z-index:1000;
+    display:inline-block;
+    position:relative;
+    margin-top:4px;
+
+    .ds-items {
+      position:absolute;
+      color:#fff;
+      top:4px;
+      left:7px;
+      right:7px;
+      font-size:12px;
+      div {
+        position:absolute;
+        display:inline-block;
+        color:#fff;
+      }
+      .ds-on {
+        left:0;
+      }
+      .ds-off {
+        right:2px;
+      }
+
+    }
+    .ds-slider {
+      border-radius:3px;
+      position:absolute;
+      top:2px;
+      left:2px;
+      width:28px;
+      height:22px;
+      background-color:#1ec331;
+      transition: all 1s;
+    }
+    &.ds-off {
+      background-color:#bbb;
+      .ds-slider {
+        background-color:#999;
+        left:30px;
+        width:27px;
+      }
+    }
+  }
+
+  pre.array,
+  pre.object {
+    font-size: 13px;
+    background-color: #fff;
+    padding: 10px 10px;
+    margin:0;
+
+    .ds-object-name {
+      font-weight:bold;
+      color:$ds-color-blue;
+      border-bottom:1px $ds-color-blue dashed;
+      display:inline-block;
+      margin-bottom:3px;
+    }
+  }
+
+  .fa {
+    color:#999;
+    &:hover {
+      color:$ds-color-orange;
+      cursor:pointer;
+    }
+    &.ds-active {
+      color:$ds-color-orange;
+    }
+
+  }
+
+  .ds-col-2 {
+    flex-basis: 50%;
+  }
+
+  .ds-not-exists {
+    color:#bbb !important;
+  }
+
+  .ds-gray {
+    color:#999 !important;
+    line-height:20px;
+    font-size:12px;
+  }
+
+  .ds-true {
+    color:green !important;
+  }
+
+  .ds-false {
+    color:#ccc !important;
+  }
+
+  .ds-hide {
+    display:none !important;
+  }
+
+  .ds-attention {
+    color:red !important;
+  }
+
+  .ds-sm-text {
+    color:#888 !important;
+    font-size:11px;
+  }
+
+  .ds-php-style {
+    color:#8c338b !important;
+    font-weight:bold;
+  }
+}
+
+.ds-light-yellow {
+  color:#fef0c4 !important;
+}
+
+.ds-lightest-blue {
+  color:$ds-color-lightest-blue !important;
+}
+
+.ds-color-wc {
+  color:#ffcb66 !important;
+}
+
+.ds-message {
+  color:green !important;
+}
+
+.ds-error {
+  color:red !important;
+}

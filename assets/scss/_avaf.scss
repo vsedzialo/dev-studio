@@ -1,0 +1,212 @@
+
+/**
+ * AVA Fields cutomization
+ *
+ */
+#dev-studio {
+  .avaf {
+    position:relative;
+
+    // Container header
+    .avaf-header {
+      .avaf-title {
+        font-size:18px;
+        margin: 3px 0 10px 10px;
+      }
+    }
+
+    // Nav tabs
+    .avaf-nav-sections {
+      display: flex;
+
+      .avaf-nav {
+        display: flex;
+        flex-wrap: nowrap;
+        margin-bottom:10px;
+        margin-left:5px;
+
+        .avaf-nav-item {
+          padding:7px 10px;
+          font-size:13px;
+          position:relative;
+          border-style:solid;
+          border-color:#f2f2f2;
+          border-width:0 0 2px 0;
+          margin-right:2px;
+          height:32px;
+          background-color:transparent;
+          transition:all .5s;
+          text-decoration:none;
+
+          &.active {
+            color:$ds-color-blue;
+            border-color:$ds-color-blue;
+          }
+          &:not(.active):hover {
+            border-color:$ds-color-blue;
+            cursor:pointer;
+          }
+
+        }
+
+      }
+
+      // Sections
+      .avaf-sections {
+        display: flex;
+        padding:5px;
+
+        .avaf-section {
+          display: none;
+          width: 100%;
+
+          // Section tabs
+          .avaf-nav-tabs {
+            display:flex;
+            margin:5px 5px 5px 0;
+            border-bottom:2px $ds-color-blue solid;
+
+            .avaf-nav-tab {
+              display: flex;
+              border-top-left-radius:2px;
+              border-top-right-radius:2px;
+              margin-right:3px;
+              padding:5px 7px;
+              font-size:13px;
+              position:relative;
+              transition:all .5s;
+              color:#666;
+              border-color:#ddd;
+              border-style:solid;
+              border-width:1px 1px 0 1px;
+
+              &.active {
+                background-color: $ds-color-blue;
+                border-color:$ds-color-blue;
+                color:#fff;
+              }
+              &:not(.active):hover {
+                background-color: #f5f5f5;
+                border-color:#ccc;
+                color:#555;
+                cursor:pointer;
+              }
+            }
+          }
+
+          .avaf-tab {
+            padding-top:5px;
+            display:none;
+            &.active {
+              width: auto;
+              height: auto;
+              display:block;
+            }
+
+          }
+
+          &.active {
+            display: block;
+          }
+        }
+      }
+    }
+
+    .avaf-preloader {
+      position:fixed;
+      top:50%;
+      left:50%;
+      transform: translateX(-50%);
+      background-color:#444;
+      border-radius:1px;
+      padding:15px 50px;
+      text-align:center;
+      display:none;
+      z-index:10001;
+
+      .avaf-pl-image {
+        img {
+          width:40px;
+        }
+      }
+      .avaf-pl-text {
+        margin-top:5px;
+        font-size:13px;
+        letter-spacing:0.1em;
+        color:#fff;
+      }
+    }
+  }
+
+  // Field group
+  .avaf-group {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 0;
+    margin-bottom: 0;
+
+
+    // Label
+    .avaf-label {
+      font-size: 13px;
+      font-weight:normal;
+      color: #222;
+      margin:5px 10px 0 3px;
+      min-width:160px;
+      line-height:1.4em;
+
+      small {
+        font-size: 10px;
+        display: block;
+      }
+    }
+
+    // Field
+    .avaf-field {
+      display: block;
+      margin-bottom: 5px;
+      line-height: 1.5em;
+      width:100%;
+
+      .avaf-before {
+        margin-right: 5px;
+      }
+      .avaf-after {
+        margin-left: 2px;
+        margin-right: 2px;
+        font-size: 12px;
+        line-height: 27px;
+      }
+      select {
+        padding: 0;
+        height: 26px;
+        line-height: 25px;
+        margin: 0;
+        vertical-align: top;
+        font-size: 13px;
+      }
+      input[type=text] {
+        background-color: #fff;
+        border: 1px #ccc solid;
+        padding: 3px 5px;
+        border-radius: 2px;
+        font-size: 12px;
+        height: 25px;
+        vertical-align: top;
+      }
+
+    }
+  }
+
+  /** Elements */
+  .avaf-button {
+    margin:15px 2px !important;
+    line-height:1em;
+    font-size:13px;
+    font-weight:normal;
+    padding:5px 10px;
+  }
+  .avaf-group .avaf-field .avaf-text-short {
+    width:30px;
+  }
+}

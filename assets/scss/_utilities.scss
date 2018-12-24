@@ -1,0 +1,139 @@
+
+#dev-studio {
+
+  /*
+   * Enabled utilities
+   *
+   */
+  .ds-autils {
+    padding:6px 0 0 15px;
+    display: flex;
+
+    .ds-autil-wr {
+      margin-right: 10px;
+      position: relative;
+      min-width: 50px;
+      line-height: 1.1em;
+      display:flex;
+
+      .ds-autil {
+        img {
+          height: 26px;
+          cursor:pointer;
+        }
+      }
+
+      .ds-autil-title {
+        text-align:center;
+        font-size: 11px;
+        margin-left:5px;
+
+        .fa.fa-toggle-on {
+          color:#1ec331;
+          font-size:16px;
+          &:hover {
+            color:#29d73e;
+          }
+        }
+      }
+    }
+  }
+
+  /*
+   * Utilities categories
+   *
+   */
+  .ds-tabs-utilcats {
+    display: flex;
+    min-height: 30px;
+    margin-left:10px;
+
+    .ds-utilcat {
+
+    }
+
+  }
+
+  /**
+   * Utilities list
+   *
+   */
+  .ds-utils {
+    text-align:center;
+    padding-top:5px;
+    padding-bottom:5px;
+    margin:5px;
+    display: inline-block;
+    transition:all .5s;
+    cursor:pointer;
+    border:1px transparent solid;
+    min-width:80px;
+    border-radius:2px;
+
+    img {
+      width:40px;
+    }
+    span {
+      display:block;
+      text-align:center;
+      font-size:13px;
+      font-weight:bold;
+
+    }
+    &:hover {
+      border-color:#dedede !important;
+      span {
+        color:$ds-color-blue;
+      }
+    }
+  }
+
+  /**
+   * Utility data header
+   *
+   */
+  .ds-util-header {
+    display:flex;
+    border-bottom: 1px #f2f2f2 solid;
+    margin-bottom:5px;
+    /*padding-bottom:5px;*/
+    /*background-color:#fff7da;*/
+
+    .ds-utilh-img {
+      padding-left:5px;
+      img {
+        height:32px;
+      }
+    }
+    .ds-utilh-title {
+      margin:5px 0 0 15px;
+      color: #0073aa;
+      font-size: 18px;
+    }
+    .ds-utilh-control {
+    }
+  }
+
+  /**
+   * Utility data
+   *
+   */
+  .ds-util-data {
+    padding:5px;
+    .ds-util {
+
+    }
+    .ds-row {
+      display:flex;
+      .ds-col {
+      }
+      .ds-col-text {
+        font-size:14px;
+        min-width:100px;
+        padding-right:15px;
+      }
+    }
+
+  }
+}
+

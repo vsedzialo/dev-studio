@@ -1,0 +1,47 @@
+.avaf-variants {
+    display:flex;
+    
+}
+.avaf-variants .avaf-variant {
+    padding:5px 4px;
+    border:1px transparent solid;
+    cursor:pointer;
+    transition: all 0.5s;
+}
+.avaf-variants .avaf-variant.active {
+    border:1px #4faae0 solid;
+    background-color:#e8f5fc;
+    border-radius:2px;
+    padding:5px 4px;
+    cursor:default;
+}
+.avaf-variants .avaf-variant.active {
+}
+
+.avaf-variant .block {
+    width:32px;
+    height:15px;
+    border-radius:1px;
+    border:1px #ccc solid;
+    background-color:#f0f0f0;
+}
+.avaf-variant .block .block-inner {
+    width:16px;
+    height:13px;
+    border-radius:1px;
+    background-color:#4faae0;
+    
+}
+.avaf-variant .block-left {
+    
+}
+.avaf-variant .block-left .block-inner {
+    
+}
+.avaf-variant .block-center .block-inner {
+    margin-left:auto;
+    margin-right:auto;
+}
+.avaf-variant .block-right .block-inner {
+    float:right
+}

@@ -1,0 +1,48 @@
+
+.avaf-block-layout {
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.avaf-block-layout input {
+    width:27px;
+    font-size:11px !important;
+    margin:2px 3px;
+    text-align: center;
+}
+.avaf-block-layout .legend {
+    position:absolute;
+    top:0;
+    left:3px;
+    font-size:10px;
+    color:#aaa;
+}
+.avaf-block-layout .bl-margin {
+    position:relative;
+    border:1px #ddd dashed;
+}
+.avaf-block-layout .bl-border {
+    position:relative;
+    border:2px #ddd solid;
+    border-radius:2px;
+    background-color:#f5f5f5;
+}
+.avaf-block-layout .bl-padding {
+    position:relative;
+    border:1px #e5e5e5 solid;
+    background-color:#f0f0f0;
+}
+.avaf-block-layout .bl-row1,
+.avaf-block-layout .bl-row3 {
+    text-align:center;
+}
+.avaf-block-layout .bl-row2 {
+    display:flex;
+    flex-wrap: nowrap;
+    justify-content:center;
+    align-items:center;
+}
+.avaf-block-layout .bl-center {
+    border:1px #ccc dashed;
+    width:40px;
+    height:30px;
+}

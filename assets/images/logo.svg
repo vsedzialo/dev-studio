@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 170 170" style="enable-background:new 0 0 170 170;" xml:space="preserve">
+<style type="text/css">
+	.ds-svglogo-b1{fill:#F4C020;}
+	.ds-svglogo-b2{fill:#2098F4;}
+	.ds-svglogo-b3{fill:#F420F2;}
+	.ds-svglogo-line{fill:#10D2A2;}
+</style>
+<g id="ds-svglogo-b1">
+	<g>
+		<rect class="ds-svglogo-b1" width="80" height="80"/>
+	</g>
+</g>
+<g id="ds-svglogo-b2">
+	<g>
+		<rect x="90" class="ds-svglogo-b2" width="80" height="80"/>
+	</g>
+</g>
+<g id="ds-svglogo-b3">
+	<g>
+		<rect y="90" class="ds-svglogo-b3" width="80" height="80"/>
+	</g>
+</g>
+<g id="ds-svglogo-top">
+	<g>
+		<rect x="100" y="90" class="ds-svglogo-line" width="70" height="10"/>
+	</g>
+</g>
+<g id="ds-svglogo-right">
+	<g>
+		<rect x="160" y="100" class="ds-svglogo-line" width="10" height="70"/>
+	</g>
+</g>
+<g id="ds-svglogo-bottom">
+	<g>
+		<rect x="90" y="160" class="ds-svglogo-line" width="70" height="10"/>
+	</g>
+</g>
+<g id="ds-svglogo-left">
+	<g>
+		<rect x="90" y="90" class="ds-svglogo-line" width="10" height="70"/>
+	</g>
+</g>
+</svg>

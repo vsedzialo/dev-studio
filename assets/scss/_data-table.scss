@@ -1,0 +1,133 @@
+
+#dev-studio {
+  .data-table {
+    width:100%;
+    border-collapse: collapse;
+    margin:0 0 15px 0;
+    box-shadow: none;
+
+    th.empty {
+      width:1%;
+    }
+    tr {
+      background-color:#fdfdfd;
+      border-bottom:1px #f3f3f3 solid;
+      &.title {
+        td {
+          background-color:#eee;
+          border-bottom:2px #ddd solid;
+        }
+      }
+      &:nth-child(even) {
+        background-color:#f9f9f9;
+      }
+      &:nth-child(even) td {
+      }
+      &.mark {
+        td {
+          color:green !important;
+          font-weight:bold;
+        }
+      }
+      &.mask {
+        td {
+          color:#999 !important;
+        }
+      }
+      &.info {
+        cursor:pointer;
+      }
+      &.info:hover {
+        td {
+          background-color: #f4f4f4 !important;
+        }
+
+      }
+
+      &.ds-active {
+        border-bottom:1px $ds-color-blue solid;
+        td, .fa {
+          color: $ds-color-blue !important;
+        }
+      }
+      .data-info {
+        color:$ds-color-blue !important;
+        &.empty {
+          color:#aaa !important;
+        }
+      }
+      .row-info {
+        cursor:pointer;
+        color:$ds-color-blue;
+        font-size:16px;
+      }
+    }
+
+
+    td, th {
+      font-size:13px !important;
+      padding: 6px 5px 3px 5px!important;
+      border:0;
+      line-height:1.4em !important;
+      word-break: normal !important;
+      max-width: 400px;
+    }
+    td {
+      &.slow {
+        color:#b83437;
+        font-weight:bold;
+      }
+      &.ds-text-right {
+        text-align:right;
+      }
+      &.ds-pos {
+        width:1%;
+      }
+      &.subtitle {
+        font-weight:bold;
+        padding-top:12px !important;
+      }
+
+    }
+    th {
+      background-color:#eee;
+      border-bottom:2px #ddd solid;
+      &.ds-order {
+        &:hover, &.ds-active {
+          cursor:pointer;
+          color:$ds-color-orange;
+          span.fa {
+            color:$ds-color-orange;
+          }
+        }
+        .fa {
+          font-size:13px;
+          margin-left:10px;
+          margin-top:3px;
+          color:#666;
+        }
+      }
+      &.ds-active {
+        color:$ds-color-orange;
+      }
+      &.ds-disabled {
+        color: #eee !important;
+        .fa {
+          color: #eee !important;
+        }
+      }
+    }
+
+    .data-info {
+      color:green;
+    }
+
+    .ds-link {
+      color:#2098f4 !important;
+      &:hover {
+        text-decoration:underline;
+      }
+    }
+
+  }
+}
