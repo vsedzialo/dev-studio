@@ -221,7 +221,7 @@ class Unit_Files extends Unit {
  */
 class Unit_Env extends Unit {
 
-    public $name = 'env';
+    public $name = 'Env';
     public $title = 'ENV';
 
     public function data() {

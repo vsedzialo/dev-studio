@@ -26,6 +26,7 @@ class Data {
         'PHP.Variables.Files',
         'PHP.Variables.Env',
         'PHP.Variables.Globals',
+
         'PHP.Constants.Constants',
         'PHP.Files.Included_Files',
         'PHP.Files.Components',

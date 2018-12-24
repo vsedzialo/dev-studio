@@ -703,7 +703,7 @@
                 mode: this.mode()
             }
             data = obj = Object.assign({}, data, args);
-            console.log( data );
+            //console.log( data );
 
             $.ajax({
                 url: DSData.ajax_url,
@@ -711,7 +711,7 @@
                 dataType: 'json',
                 data: data,
                 success: function (response) {
-                     console.log(response);
+                    //console.log(response);
 
                     DevStudio.response = response;
 

@@ -43,7 +43,7 @@ class DevStudio {
             ],
             'appearance' => [
                 'unit_init' => 'Wordpress.Overview.Overview',
-                'modules_order' => [ 'Wordpress', 'PHP', 'WooCommerce', 'MySQL' ]
+                'modules_order' => [ 'PHP', 'Wordpress', 'WooCommerce', 'MySQL' ]
             ],
             
         ],
@@ -513,6 +513,7 @@ class DevStudio {
 
         if (!empty($opts)) {
             $this->options = $opts;
+            update_option('dev_studio_options', $this->options);
         } else {
             $this->options = $this->default_options;
             add_option('dev_studio_options', $this->options);

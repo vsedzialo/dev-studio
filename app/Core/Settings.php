@@ -88,8 +88,9 @@ class Settings {
             $modules_items[$module] = [
                 'html' => $module_data->title
             ];
-            
         }
+
+
     
         $unit_init = [];
         foreach($data_groups as $group=>$data) {
@@ -372,6 +373,7 @@ class Settings {
         ]);
 
         $this->html = $this->avaFields->container( $this->option_name )->render();
+
         return $this->html;
     }
 
