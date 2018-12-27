@@ -116,27 +116,6 @@ class Utils {
 		return $data;
 	}
 
-    /**
-     * Remove directories recursively
-     *
-     * @since 1.0.0
-     * @param $dir
-     */
-	static function rmdir( $dir ) {
-		if (is_dir($dir)) {
-			$it    = new \RecursiveDirectoryIterator( $dir, \RecursiveDirectoryIterator::SKIP_DOTS );
-			$files = new \RecursiveIteratorIterator( $it, \RecursiveIteratorIterator::CHILD_FIRST );
-			foreach ( $files as $file ) {
-				if ( $file->isDir() ) {
-					@rmdir( $file->getRealPath() );
-				} else {
-					@unlink( $file->getRealPath() );
-				}
-			}
-			@rmdir( $dir );
-		}
-	}
-
 	public static function callback_data( array $callback ) {
 
 		if ( is_string( $callback['function'] ) and ( false !== strpos( $callback['function'], '::' ) ) ) {
@@ -418,18 +397,6 @@ class Utils {
     }
 
     /**
-     * Make directory
-     *
-     * @since 1.0.0
-     * @param $dir
-     */
-    public static function mkdir($dir) {
-        if (!is_dir($dir)) {
-            @mkdir($dir, 755);
-        }
-    }
-
-    /**
      * Output time
      *
      * @since 1.0.0
@@ -440,7 +407,7 @@ class Utils {
     public static function time($time, $decimal = 2, $icon = false) {
         return ($icon ? '<span class="fa fa-clock-o"></span>&nbsp;':'') .
                (function_exists( 'number_format_i18n' ) ? number_format_i18n( $time, $decimal ) : number_format( $time, $decimal )) .
-               ' '.__('sec', 'dev-studio');
+               ''.__('s', 'dev-studio');
     }
 
     /**
@@ -633,6 +600,13 @@ class Utils {
         return '<span class="ds-message '.($error ? 'ds-error':'').'">'.$message.'</span>';
     }
 
+    public static function key($key) {
+        $key = str_replace( ['\\'], ['/'], $key );
+        $storage_dir = str_replace( ['\\'], ['/'], DevStudio()->dir('storage'));
+        $key = str_replace( $storage_dir, '', $key );
+        return $key;
+    }
+
     /**
      * Check if exclude WP ajax query
      *
@@ -641,8 +615,17 @@ class Utils {
      */
     public static function exclude_wp_ajax() {
         return isset(DevStudio()->options()['data']['ajax']['exclude_wp_ajax']) &&
-        DevStudio()->options()['data']['ajax']['exclude_wp_ajax'] === 'yes' &&
-        isset($_REQUEST['action']) &&
-        in_array($_REQUEST['action'], ['heartbeat','wp-remove-post-lock']);
+            DevStudio()->options()['data']['ajax']['exclude_wp_ajax'] === 'yes' &&
+            isset($_REQUEST['action']) &&
+            in_array($_REQUEST['action'], ['heartbeat','wp-remove-post-lock']);
     }
+
+    public static function collect() {
+        return  DevStudio()->enabled() &&
+                !DevStudio()->me() &&
+                !Utils::exclude_wp_ajax() &&
+                !isset($_REQUEST['doing_wp_cron']);
+
+    }
+
 }

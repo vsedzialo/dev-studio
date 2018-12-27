@@ -39,6 +39,7 @@ class Unit_Enqueued extends Unit {
 
     public $name = 'Enqueued';
     public $title = 'Enqueued';
+    public $file_data = 'Wordpress.Scripts';
 
     public function encode_data($data) {
         return serialize($data);
@@ -239,6 +240,7 @@ class Unit_Registered extends Unit {
 
     public $name = 'Registered';
     public $title = 'Registered';
+    public $file_data = 'Wordpress.Scripts';
 
     public function encode_data($data) {
         return serialize($data);
@@ -417,6 +419,7 @@ class Unit_WP_Scripts extends Unit {
 
     public $name = 'WP_Scripts';
     public $title = 'WP_Scripts';
+    public $file_data = 'Wordpress.Scripts';
 
     public function encode_data($data) {
         return serialize($data);
@@ -427,7 +430,6 @@ class Unit_WP_Scripts extends Unit {
     }
 
     public function data() {
-
         if (!empty($GLOBALS['wp_scripts']) && is_object($GLOBALS['wp_scripts'])) {
             $this->data = $GLOBALS['wp_scripts'];
         }

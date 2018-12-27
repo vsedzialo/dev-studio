@@ -252,8 +252,24 @@
                                     el.init();
                                 });
                             }
-                            tippy('.avaf-tip', { theme: 'ds' });
-                            console.log( 'tippy' );
+                            if (DSData.options.general.appearance.tips == 'yes') {
+                                tippy('.avaf-tip', {theme: 'ds'});
+                            }
+                        });
+                    } else {
+                        DevStudio.setDataInfo('');
+                    }
+                });
+
+                $('body').on('click', '#dev-studio-tools .ds-stats', function() {
+                    let $this = $(this);
+
+                    $('#dev-studio-tools .ds-app-info').not(this).removeClass('ds-active');
+                    $this.toggleClass('ds-active');
+
+                    if ($this.hasClass('ds-active')) {
+                        DevStudio.ajax({request: 'stats'}, function() {
+                            DevStudio.setDataInfo(this.response.html, 'stats');
                         });
                     } else {
                         DevStudio.setDataInfo('');
@@ -532,8 +548,6 @@
             }
 
         },
-        
-        
 
         clearUI: function() {
             $('#dev-studio .ds-tab-module').removeClass('ds-active');
@@ -569,6 +583,9 @@
         setDataInfo: function (html, mode='') {
             if (mode!='settings') {
                 $('#dev-studio-tools .ds-settings').removeClass('ds-active');
+            }
+            if (mode!='stats') {
+                $('#dev-studio-tools .ds-stats').removeClass('ds-active');
             }
             $('#dev-studio-data-info .ds-data-info').html(html);
             if (html) {
@@ -691,7 +708,7 @@
                 $('#dev-studio-actions').html(this.response.html);
                 this.loadData();
             } else {
-                this.ajaxTest(this.ajaxTestCallback);
+                //this.ajaxTest(this.ajaxTestCallback);
             }
         },
 
@@ -728,7 +745,10 @@
                     if (response && response.result && response.result == 'ok') {
 
                         if (callback != undefined) callback.apply(DevStudio);
-                        tippy('.ds-tip', { theme: 'ds', placement: 'right' });
+
+                        if (DSData.options.general.appearance.tips == 'yes') {
+                            tippy('.ds-tip', {theme: 'ds', placement: 'right'});
+                        }
                     }
                 },
                 complete: function () {

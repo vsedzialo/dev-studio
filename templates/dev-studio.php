@@ -33,7 +33,7 @@
                     if ($module_order == $module_name ) {
                         if (!$active_module) $active_module = $module_name;
                         echo '<div class="ds-tab-module' . ($module_name == $active_module ? ' ds-active' : '') . '" data-module="' . esc_attr($module_name) . '">';
-                        echo  $module->title ;
+                        echo  $module->title;
                         echo '</div>';
                     }
                 }
@@ -54,7 +54,8 @@
                 
                 <div class="ds-checkpoints">
                     <div class="ds-select">
-                        <div><select id="checkpoint">
+                        <div>
+                            <select id="checkpoint">
                                 <?php
                                 if (!empty($options['checkpoints']['actions'][$mode])) {
                                     foreach ($options['checkpoints']['actions'][$mode] as $checkpoint => $_data) {
@@ -62,9 +63,10 @@
                                     }
                                 }
                                 ?>
-                            </select></div>
+                            </select>
+                        </div>
                     </div>
-                    <div class="ds-icons ds-tip" data-tippy-content="<?php echo __('Checkpoints', 'dev-studio'); ?>"><span class="fa ds-tip fa-cog" data-tippy-content="<?php echo __('Checkpoints', 'dev-studio'); ?>"></span></div>
+                    <div class="ds-icons"><span class="fa ds-tip fa-cog" data-tippy-content="<?php echo __('Checkpoints', 'dev-studio'); ?>"></span></div>
                 </div>
 
             </div>
@@ -104,6 +106,7 @@
                         <a class="ds-tool ds-app-info" data-type="database" title="<?php echo __('Database','dev-studio'); ?>"><span class="fa fa-database"></span></a>
                         <a class="ds-tool ds-app-info" data-type="server" title="<?php echo __('Server','dev-studio'); ?>"><span class="fa fa-server"></span></a>
                         <a class="ds-tool ds-settings" title="<?php echo __('Settings','dev-studio'); ?>"><span class="fa fa-cogs"></span></a>
+                        <!--<a class="ds-tool ds-stats" title="<?php echo __('Dev Studio','dev-studio'); ?>"><span class="fa fa-bar-chart"></span></a>-->
                     </div>
                     <div id="dev-studio-data-info">
                         <div class="ds-data-info-control">

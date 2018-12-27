@@ -1,7 +1,7 @@
 <?php
 namespace DevStudio\Data;
 
-use DevStudio\Core\Storage;
+use DevStudio\Core\Cache;
 use DevStudio\Helpers\Utils;
 
 /**

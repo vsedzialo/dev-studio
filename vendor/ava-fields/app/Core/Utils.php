@@ -39,7 +39,6 @@ class Utils {
         if ( ! file_exists( $fname ) ) {
             return '';
         }
-
         return file_get_contents( $fname );
     }
 

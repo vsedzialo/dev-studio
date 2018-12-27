@@ -1,16 +1,17 @@
 <?php
+
+$_mode = str_replace('ajax_','',$data['mode']);
 $actions = DevStudio()->app_load($data['mode'].'/actions');
 $options = DevStudio()->options();
 
-if (!empty($actions)) {
+if (!empty($actions) && is_array($actions)) {
     $start = false;
-    $hidden = [];
     $hidden = [];
 
     // Not available actions
     echo '<div class="cp-not-available">';
     foreach($actions as $action=>$status) {
-        if (!$status && $action!='dev-studio/init') {
+        if (!$status && $action !== 'dev-studio/init') {
             echo '<div class="cp-wrapper">';
             echo '<div class="cp-type"></div>';
             echo '<div class="cp-name">'.htmlspecialchars($action).'</div>';

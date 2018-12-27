@@ -39,6 +39,7 @@ class Unit_Enqueued extends Unit {
 
     public $name = 'Enqueued';
     public $title = 'Enqueued';
+    public $file_data = 'Wordpress.Styles';
 
     public function encode_data($data) {
         return serialize($data);
@@ -226,6 +227,7 @@ class Unit_Registered extends Unit {
 
     public $name = 'Registered';
     public $title = 'Registered';
+    public $file_data = 'Wordpress.Styles';
 
     public function encode_data($data) {
         return serialize($data);
@@ -411,6 +413,7 @@ class Unit_WP_Styles extends Unit {
 
     public $name = 'WP_Styles';
     public $title = 'WP_Styles';
+    public $file_data = 'Wordpress.Styles';
 
     public function encode_data($data) {
         return serialize($data);

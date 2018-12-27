@@ -67,6 +67,8 @@ class Unit_Overview extends Unit {
 
     public function html() {
 
+        //return print_r($this->data, true);
+
         $data = [];
         foreach ($this->data as $key => $value) {
             if (is_array($value) && isset($value['type'])) {

@@ -20,14 +20,18 @@ class Settings {
     public $html;
 
 
-    public function __construct() {
+    public function __construct($opt) {
         // Render settings html and save to file
-        DevStudio()->app_save('settings', $this->render());
+        if (Utils::collect()) {
+            DevStudio()->app_save('settings', $this->render());
+        }
     }
 
     public function render() {
 
         $this->avaFields = DevStudio()->avaFields();
+        $options = DevStudio()->options();
+        $tips = $options['general']['appearance']['tips'] === 'yes' ? true:false;
 
         if (!$this->avaFields) {
             return Utils::message(__('Library AVA-Fields hasn\'t inslalled','dev-studio'));
@@ -117,7 +121,7 @@ class Settings {
                     'type' => 'checkbox',
                     'texts' => [
                         'label' => __('Enabled', 'dev-studio'),
-                        'tip'   => __('If plugin is disabled (off), it will not save any data during page load', 'dev-studio'),
+                        'tip'   => $tips ? __('If plugin is disabled (off), it will not save any data during page load', 'dev-studio'):'',
                         'tip_icon' => '<span class="fa fa-question-circle-o"></span>'
                     ],
                     'options' => [
@@ -133,7 +137,7 @@ class Settings {
                     'type' => 'select',
                     'texts' => [
                         'label' => __('Default unit', 'dev-studio'),
-                        'tip'   => __('Unit that is will be loaded by default', 'dev-studio'),
+                        'tip'   => $tips ? __('Unit that is will be loaded by default', 'dev-studio'):'',
                         'tip_icon' => '<span class="fa fa-question-circle-o"></span>'
                     ],
                     'items' => $unit_init,
@@ -154,6 +158,18 @@ class Settings {
                         'map' => 'general.appearance.modules_order'
                     ]
                 ],
+
+                // Show tips
+                'tips' => [
+                    'tab' => 'appearance',
+                    'type' => 'checkbox',
+                    'texts' => [
+                        'label' => __('Show tips', 'dev-studio'),
+                    ],
+                    'options' => [
+                        'map' => 'general.appearance.tips'
+                    ]
+                ],
    
                 
                 /**** Tab :: Access ****/
@@ -163,7 +179,7 @@ class Settings {
                     'type' => 'checkbox',
                     'texts' => [
                         'label' => __('Admin access required', 'dev-studio'),
-                        'tip'   => __('Set access to plugin only for administrators', 'dev-studio'),
+                        'tip'   => $tips ? __('Set access to plugin only for administrators', 'dev-studio'):'',
                         'tip_icon' => '<span class="fa fa-question-circle-o"></span>'
                     ],
                     'options' => [
@@ -191,7 +207,7 @@ class Settings {
                     'texts' => [
                         'label' => __('Slow query time', 'dev-studio'),
                         'after' => __('sec', 'dev-studio'),
-                        'tip'   => __('Query time that is considered as slow', 'dev-studio'),
+                        'tip'   => $tips ? __('Query time that is considered as slow', 'dev-studio'):'',
                         'tip_icon' => '<span class="fa fa-question-circle-o"></span>'
                     ],
                     'options' => [
@@ -219,11 +235,25 @@ class Settings {
                 'type' => 'checkbox',
                 'texts' => [
                     'label' => __('Exclude plugin data', 'dev-studio'),
-                    'tip'   => __('All this plugin queries and data will be excluded from results', 'dev-studio'),
+                    'tip'   => $tips ? __('All this plugin queries and data will be excluded from results', 'dev-studio'):'',
                     'tip_icon' => '<span class="fa fa-question-circle-o"></span>'
                 ],
                 'options' => [
                     'map' => 'data.general.exclude_ds_data'
+                ],
+                'value' => 'yes',
+            ],
+            // OpenSSL encryption
+            'openssl' => [
+                'tab' => 'general',
+                'type' => 'checkbox',
+                'texts' => [
+                    'label' => __('OpenSSL encryption', 'dev-studio'),
+                    'tip'   => $tips ? __('Strongly recommended to turn on OpenSSL encryption, however it works slower', 'dev-studio'):'',
+                    'tip_icon' => '<span class="fa fa-question-circle-o"></span>'
+                ],
+                'options' => [
+                    'map' => 'data.general.openssl'
                 ],
                 'value' => 'yes',
             ],
@@ -236,7 +266,7 @@ class Settings {
                 'type' => 'checkbox',
                 'texts' => [
                     'label' => __('Exclude Wordpress system queries', 'dev-studio'),
-                    'tip'   => __('Wordpress AJAX system queries will not be considered', 'dev-studio'),
+                    'tip'   => $tips ? __('Wordpress AJAX system queries will not be considered', 'dev-studio'):'',
                     'tip_icon' => '<span class="fa fa-question-circle-o"></span>'
                 ],
                 'options' => [
@@ -288,7 +318,7 @@ class Settings {
                     'type' => 'checkbox',
                     'texts' => [
                         'label' => __('Enabled', 'dev-studio'),
-                        'tip'   => __('Show / hide status bar', 'dev-studio'),
+                        'tip'   => $tips ? __('Show / hide status bar', 'dev-studio'):'',
                         'tip_icon' => '<span class="fa fa-question-circle-o"></span>'
                     ],
                     'options' => [
@@ -302,7 +332,7 @@ class Settings {
                     'type' => 'checkbox',
                     'texts' => [
                         'label' => __('Expand on load', 'dev-studio'),
-                        'tip'   => __('Show and expand status bar on page load', 'dev-studio'),
+                        'tip'   => $tips ? __('Show and expand status bar on page load', 'dev-studio'):'',
                         'tip_icon' => '<span class="fa fa-question-circle-o"></span>'
                     ],
                     'options' => [
@@ -311,12 +341,13 @@ class Settings {
                     'value' => 'yes'
                 ],
                 // Only for logged in users
+                /*
                 'bar_only_logged_in' => [
                     'tab' => 'general',
                     'type' => 'checkbox',
                     'texts' => [
                         'label' => __('Only for Logged in users', 'dev-studio'),
-                        'tip'   => __('Show status bar only for logged in users', 'dev-studio'),
+                        'tip'   => $tips ? __('Show status bar only for logged in users', 'dev-studio'):'',
                         'tip_icon' => '<span class="fa fa-question-circle-o"></span>'
                     ],
                     'options' => [
@@ -324,6 +355,7 @@ class Settings {
                     ],
                     'value' => 'yes'
                 ],
+                */
 
                 /**** Tab :: Items ****/
 

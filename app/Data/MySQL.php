@@ -1,7 +1,7 @@
 <?php
 namespace DevStudio\Data;
 
-use DevStudio\Core\Storage;
+use DevStudio\Core\Cache;
 use DevStudio\Helpers\Utils;
 
 /**
@@ -64,7 +64,7 @@ class MySQL {
         global $wpdb;
 
         // Load data from storage
-        $data = Storage::load([
+        $data = Cache::load([
             'type' => 'mysql_queries'
         ]);
 
@@ -139,7 +139,7 @@ class MySQL {
             $data['slow_queries'] = isset($data['slow_queries']) ? $data['slow_queries']:[];
 
             // Save data to storage
-            Storage::save([
+            Cache::save([
                 'type' => 'mysql_queries',
                 'data' => $data
             ]);

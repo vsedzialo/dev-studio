@@ -22,7 +22,7 @@ class Utilities {
         //add_action( 'dev-studio/init', [$this, 'utilities'] );
     
         $utils_dir = DevStudio()->dir('storage') . 'utilities';
-        Utils::mkdir($utils_dir);
+        Storage::mkdir($utils_dir);
         
         $this->load_utilities();
     }

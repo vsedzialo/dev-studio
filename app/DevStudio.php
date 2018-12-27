@@ -3,6 +3,7 @@ namespace DevStudio;
 
 use DevStudio\Helpers\Utils;
 use DevStudio\Core\Data;
+use DevStudio\Core\Storage;
 use DevStudio\Core\Template;
 use DevStudio\Core\Checkpoint;
 use DevStudio\Core\Settings;
@@ -12,6 +13,8 @@ use DevStudio\Core\Utilities;
 
 use DevStudio\Data\Wordpress;
 use DevStudio\Data\WooCommerce;
+
+$shutdown = 0;
 
 /**
  * Dev Studio main class
@@ -34,6 +37,8 @@ class DevStudio {
     public $bar;
     public $access = false;
     public $bar_access = false;
+    public $stats = [];
+    public $shutdown = false;
 
     public $default_options = [
         'general' => [
@@ -42,8 +47,9 @@ class DevStudio {
                 'only_admin' => 'yes'
             ],
             'appearance' => [
-                'unit_init' => 'Wordpress.Overview.Overview',
-                'modules_order' => [ 'PHP', 'Wordpress', 'WooCommerce', 'MySQL' ]
+                'unit_init' => 'PHP.Variables.Server',
+                'modules_order' => [ 'PHP', 'Wordpress', 'WooCommerce', 'MySQL' ],
+                'tips' => 'yes'
             ],
             
         ],
@@ -136,7 +142,8 @@ class DevStudio {
         ],
         'data' => [
             'general' => [
-                'exclude_ds_data' => 'yes'
+                'exclude_ds_data' => 'yes',
+                'openssl' => 'yes'
             ],
             'ajax' => [
                 'exclude_wp_ajax' => 'yes'
@@ -152,7 +159,7 @@ class DevStudio {
                 'wc_conditionals' => 'yes'
             ],
             'expand' => 'yes',
-            'only_logged_in' => 'no',
+            //'only_logged_in' => 'no',
             'show' => '',
             'html' => ''
         ],
@@ -202,6 +209,11 @@ class DevStudio {
             $this->mode = (!Utils::is_ajax() ? '' : 'ajax_') . (!Utils::is_admin() ? 'public' : 'admin');
         }
 
+        // Clear data directory
+        if (Utils::collect()) {
+            Storage::remove_data();
+        }
+
         // Define first available action
         if (empty($this->options()['modes'][$this->mode]['start'])) {
             foreach($GLOBALS['wp_actions'] as $action=>$_) {
@@ -220,39 +232,37 @@ class DevStudio {
         $this->data       = new Data();
         $this->template   = new Template();
         $this->checkpoint = new Checkpoint($this->mode, $this->options());
-        $this->settings   = new Settings();
+        $this->settings   = new Settings($this->options());
         $this->bar        = new Bar();
         $this->utilities  = new Utilities();
 
         //
         if (!(isset($_REQUEST['action']) && $_REQUEST['action'] === 'dev_studio_test')) {
 
-            if (function_exists('add_action')) {
+            add_action('wp_enqueue_scripts', '\DevStudio\load_assets');
+            add_action('admin_enqueue_scripts', '\DevStudio\load_assets');
 
-                add_action('wp_enqueue_scripts', '\DevStudio\load_assets');
-                add_action('admin_enqueue_scripts', '\DevStudio\load_assets');
+            // Add item to admin bar menu
+            add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 100);
 
-                // Add item to admin bar menu
-                add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 100);
-
-                // DevStudio disabled
-                if (!defined('DOING_AJAX') && DevStudio()->enabled()) {
-                    add_action('shutdown', [$this, 'page_data'], PHP_INT_MAX - 2);
-                    add_action('shutdown', [$this, 'php_data'], PHP_INT_MAX - 2);
-                    add_action('shutdown', [$this, 'shutdown'], PHP_INT_MAX - 1);
-                    add_action('shutdown', [$this, 'app_data'], PHP_INT_MAX);
+            // DevStudio disabled
+            if (DevStudio()->enabled()) {
+                if (!wp_doing_ajax()) {
+                    add_action('shutdown', [$this, 'page_data'], PHP_INT_MAX - 3);
+                    add_action('shutdown', [$this, 'php_data'], PHP_INT_MAX - 3);
+                    add_action('shutdown', [$this, 'app_data'], PHP_INT_MAX - 2);
                 }
+
+                // Add checkpoint 'shutdown' if not exists any
+                add_action('shutdown', [$this, 'shutdown'], PHP_INT_MAX - 1);
             }
 
-            // Clear data directory
-            $this->remove_data();
-
-            // Add checkpoint 'shutdown' if not exists any
-            $this->shutdown();
-
-            // Init hook
-            do_action('dev-studio/init');
+        } else {
+            add_action('shutdown', [$this, 'app_data'], PHP_INT_MAX - 2);
         }
+
+        // Init hook
+        do_action('dev-studio/init');
     }
 
     /**
@@ -344,9 +354,6 @@ class DevStudio {
                 $response['bar'] = $this->bar;
                 $response['html'] = $this->bar->bar_data();
                 break;
-            case 'settings':
-                $response['html'] = $this->app_load('settings');
-                break;
             case 'data':
                 $response['html'] = $this->checkpoint->load_data();
                 break;
@@ -357,6 +364,8 @@ class DevStudio {
                 $response['html'] = $this->template->load( 'actions', [
                     'mode' => $_REQUEST['mode']
                 ]);
+                //$response['html'] = '333';
+
                 break;
             case 'checkpoints':
                 if (!empty($_REQUEST['cp'])) {
@@ -381,6 +390,13 @@ class DevStudio {
                     break;
                 }
                 break;
+            case 'settings':
+                $response['html'] = $this->app_load('settings', true, 'app');
+                break;
+            case 'stats':
+                $response['html'] = Info::stats();
+                break;
+
             case 'utility':
                 $response = array_merge_recursive($response, $this->utilities->load($_REQUEST['utility'], isset($_REQUEST['page']) ? $_REQUEST['page']:null));
                 break;
@@ -498,12 +514,11 @@ class DevStudio {
     public function options() {
 
         // Temp
-/*
+        /*
         $this->options = $this->default_options;
         update_option('dev_studio_options', $this->options);
         return $this->options;
-*/
-
+        */
 
         if (!empty($this->options)) return $this->options;
 
@@ -671,10 +686,15 @@ class DevStudio {
      */
     public function shutdown() {
 
+        if (!DevStudio()->enabled()) return;
+
         // Add shutdown breakpoint if not exists any
-        if ( DevStudio()->enabled() && empty( $this->checkpoints() ) ) {
+        if ( empty( $this->checkpoints() ) ) {
             $this->checkpoint->add( 'shutdown' );
         }
+
+        // Save crypt options
+        //Storage::update_crypt_data();
     }
 
     /**
@@ -684,21 +704,29 @@ class DevStudio {
      */
     public function app_data() {
 
-        $this->remove_data('app/'.$this->mode);
+        // Check if collect data or not
+        if (!Utils::collect()) return;
+
+        Storage::remove_data('app/'.$this->mode);
 
         $storage_dir = $this->dir('storage');
-        Utils::mkdir($storage_dir . 'data/app');
-        Utils::mkdir($storage_dir . 'data/app/' . $this->mode);
+        Storage::mkdir($storage_dir . 'data/app');
+        Storage::mkdir($storage_dir . 'data/app/' . $this->mode);
+
+        $data = [];
 
         // Get actions array
-        $actions = $GLOBALS['wp_actions'];
+        //$actions = $GLOBALS['wp_actions'];
         $start = false;
         foreach($GLOBALS['wp_actions'] as $action=>$_) {
-            $actions[$action] = $start;
+            $data['actions'][$action] = $start;
             if ($action === 'dev-studio/init') $start = true;
         }
+        $this->app_save($this->mode.'/actions', $data['actions']);
 
-        $this->app_save($this->mode.'/actions', $actions);
+        // Stats
+        $data['stats'] = $this->stats;
+        $this->app_save($this->mode.'/stats', $data['stats']);
     }
 
     /**
@@ -771,9 +799,13 @@ class DevStudio {
      * @param bool $json
      */
     public function app_save($fname, $data, $json=true) {
+
+        // Check if collect data or not
+        if (!Utils::collect()) return;
+
         $this->mkdirs();
-        $fname = $this->dir('storage').'data/app/'.$fname.'.dat';
-        file_put_contents($fname, $json ? json_encode($data):$data);
+        $filename = $this->dir('storage').'data/app/'.$fname.'.dat';
+        Storage::save($filename, $json ? json_encode($data):$data);
     }
 
     /**
@@ -784,12 +816,12 @@ class DevStudio {
      * @param bool $json
      * @return array|bool|mixed|object|string
      */
-    public function app_load($fname, $json=true) {
+    public function app_load($fname, $json=true, $mode='') {
         $fname = $this->dir('storage').'data/app/'.$fname.'.dat';
-        if (file_exists($fname)) {
-            $data = file_get_contents($fname);
-            return $json ? json_decode($data, true):$data;
-        }
+
+        $data = Storage::load($fname, $mode);
+        //return $data;
+        return $json ? json_decode($data, true):$data;
     }
 
     /**
@@ -798,37 +830,9 @@ class DevStudio {
      * @since 1.0.0
      */
     public function mkdirs() {
-        Utils::mkdir($this->dir('storage'));
-        Utils::mkdir($this->dir('storage') . 'data');
-        Utils::mkdir($this->dir('storage') . 'data/app');
-    }
-
-    /**
-     * Remove previous data
-     *
-     * @since 1.0.0
-     * @param string $mode
-     */
-    public function remove_data($mode='') {
-
-        // Exclude app system request
-        if ( $this->me() ) return;
-
-        // Exclude WP system AJAX query
-        if (Utils::exclude_wp_ajax()) return;
-
-        if (empty($mode)) $mode = $this->mode;
-
-        $storage_dir = $this->dir('storage');
-        Utils::mkdir($storage_dir);
-        Utils::rmdir( $storage_dir . 'data/' . $mode );
-        
-        if ($mode==='admin' || $mode==='public') {
-            Utils::rmdir( $storage_dir . 'data/ajax_' . $mode );
-        }
-
-        Utils::mkdir($storage_dir . 'data');
-        Utils::mkdir($storage_dir . 'data/' . $mode);
+        Storage::mkdir($this->dir('storage'));
+        Storage::mkdir($this->dir('storage') . 'data');
+        Storage::mkdir($this->dir('storage') . 'data/app');
     }
 
     /**
@@ -902,13 +906,22 @@ class DevStudio {
      * @return bool|void
      */
     public function access($type=null) {
-        
+
+        if ( !is_user_logged_in() ) {
+            $this->access = false;
+            return false;
+        }
+
         // Only for administrators
         if (isset($this->options()['general']['access']['only_admin']) && $this->options()['general']['access']['only_admin'] === 'yes') {
-            if ( !is_user_logged_in() ) return;
+            if ( !is_user_logged_in() ) {
+                $this->access = false;
+                return false;
+            }
             $user = wp_get_current_user();
             if ( !in_array('administrator', (array)$user->roles) ) {
                 $this->access = false;
+                return false;
             }
         }
         
@@ -951,6 +964,9 @@ class DevStudio {
  * @since 1.0.0
  */
 function load_assets() {
+
+    if (!DevStudio()->access) return;
+
     wp_enqueue_style( 'fontawesome', DevStudio()->url() . 'assets/css/fontawesome.css' );
     wp_enqueue_style( 'dev-studio', DevStudio()->url() . 'assets/css/styles.css' );
     wp_enqueue_script( 'tippy', DevStudio()->url() . 'assets/libs/tippy/tippy.all.min.js' );

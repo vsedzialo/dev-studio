@@ -258,24 +258,32 @@ class Unit_Globals extends Unit {
 
     public function data() {
 
+        $len = 1000;
         foreach($GLOBALS as $key=>$value) {
             if (!in_array($key, ['_GET','_POST','_COOKIE','_FILES','_SERVER','_Variables','_ENV','GLOBALS'])) {
                 $type = '';
                 $val = $value;
 
+                /*
                 if (is_array($value) || is_object($value)) {
                     $type = is_array($value) ? 'array':'object';
                     $size = mb_strlen(print_r($value, true), 'UTF-8');
 
                     $val = '<div class="title">'.$key.'</div><pre class="'.$type.'">';
-                    if ($size < 5000) {
+                    if ($size < $len) {
                         $val .= htmlspecialchars(print_r($value, true)).'</pre>';
                     } else {
-                        $val .= htmlspecialchars(mb_substr(print_r($value, true), 0, 5000, 'UTF-8')).'</pre>';
-                        $val .= '<hr/>'.sprintf( _x('Limited to %1$d characters', 'dev-studio' ), 5000);
+                        $val .= htmlspecialchars(mb_substr(print_r($value, true), 0, $len, 'UTF-8')).'</pre>';
+                        $val .= '<hr/>'.sprintf( _x('Limited to %1$d characters', 'dev-studio' ), $len);
                     }
                 }
-                $this->data[$key] = [ 'val' => $val, 'type' => $type ];
+                */
+                if (is_array($value) || is_object($value)) {
+                    $val = is_array($value) ? '[ Array ]':'[ Object ]';
+                    $this->data[$key] = [ 'val' => $val, 'class' => 'mask' ];
+                } else {
+                    $this->data[$key] = [ 'val' => $val ];
+                }
             }
         }
         ksort($this->data);
@@ -285,11 +293,11 @@ class Unit_Globals extends Unit {
 
         $rows = [];
         foreach ($this->data as $key => $item) {
-            if (!$item['type']) {
+            if (!isset($item['type'])) {
                 $rows[] = [
                     'cols' => [
                         ['val' => $key],
-                        ['val' => $item['val']]
+                        $item
                     ]
                 ];
             } else {

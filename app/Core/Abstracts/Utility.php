@@ -2,6 +2,7 @@
 namespace DevStudio\Core\Abstracts;
 
 use DevStudio\Helpers\Utils;
+use DevStudio\Core\Storage;
 
 /**
  * Utility abstract class
@@ -113,10 +114,10 @@ abstract class Utility {
      */
     public function mkdirs() {
         $utils_dir = DevStudio()->dir('storage') . 'utilities';
-        Utils::mkdir($utils_dir);
+        Storage::mkdir($utils_dir);
 
         $util_dir = $utils_dir . '/' . $this->name;
-        Utils::mkdir($util_dir);
+        Storage::mkdir($util_dir);
     }
     
     /**
@@ -139,7 +140,7 @@ abstract class Utility {
         $this->mkdirs();
         $util_dir = DevStudio()->dir('storage') . 'utilities/' . $this->name;
         $fname = $util_dir.'/'.$name.'.dat';
-        file_put_contents($fname, $json ? json_encode($data):$data);
+        Storage::save($fname, $json ? json_encode($data):$data);
     }
     
     /**
@@ -166,7 +167,7 @@ abstract class Utility {
         $this->mkdirs();
         $util_dir = DevStudio()->dir('storage') . 'utilities/' . $this->name;
         $fname = $util_dir.'/data.dat';
-        file_put_contents($fname, json_encode($this->data));
+        Storage::save($fname, json_encode($this->data), 'utilities/' . $this->name . '/data');
     }
     
     /**
@@ -176,10 +177,8 @@ abstract class Utility {
     public function load_data() {
         $util_dir = DevStudio()->dir('storage') . 'utilities/' . $this->name;
         $fname = $util_dir.'/data.dat';
-        if (file_exists($fname)) {
-            $data = file_get_contents($fname);
-            return json_decode($data, true);
-        }
+        $data = Storage::load($fname);
+        return json_decode($data, true);
     }
     
     public function get_formatted_text($text, $type = 'string') {

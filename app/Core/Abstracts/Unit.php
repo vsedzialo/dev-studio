@@ -1,6 +1,9 @@
 <?php
 namespace DevStudio\Core\Abstracts;
 
+use DevStudio\Core\Storage;
+use DevStudio\Helpers\Utils;
+
 /**
  * Unit abstract class
  *
@@ -20,6 +23,8 @@ abstract class Unit {
     public $type = 'dynamic';   // dynamic | static
 
     public $title;
+
+    public $file_data;
 
     public $tabTitle;
 
@@ -105,22 +110,38 @@ abstract class Unit {
      * @param $fname
      */
     public function save($dir, $fname) {
+
+        // Check if collect data or not
+        if (!Utils::collect()) return;
+
         if ($this->type !== 'static') {
 
-            $filename = $dir . '/' . $fname . '.dat';
-            if ($this->space !== 'default' && file_exists($filename)) return;
+            if ($this->file_data) {
+                $filename = $dir . '/' . $this->file_data . '.dat';
+                $key = $this->file_data;
+            } else {
+                $filename = $dir . '/' . $fname . '.dat';
+                $key = $fname;
+                if ($this->space !== 'default' && file_exists($filename)) return;
+            }
 
-            // Form unit data
-            $this->data();
+            if (!file_exists($filename)) {
+                // Form unit data
+                DevStudio()->stats['data'][$key]['data_start'] = microtime(true);
+                $this->data();
+                DevStudio()->stats['data'][$key]['data_end'] = microtime(true);
 
-            if (!empty($this->data)) {
-                $data = $this->encode_data($this->data);
-                if (!file_exists($filename)) {
-                    file_put_contents($filename, $data);
+                if (!empty($this->data)) {
+                    $data = $this->encode_data($this->data);
+
+                    DevStudio()->stats['data'][$key]['save_start'] = microtime(true);
+                    Storage::save($filename, $data, $key);
+                    DevStudio()->stats['data'][$key]['save_end'] = microtime(true);
                 }
                 unset($this->data);
             }
         }
+
     }
 
     /**
@@ -131,7 +152,12 @@ abstract class Unit {
      * @param $fname
      */
     public function load($dir, $fname) {
-        $data = file_get_contents($dir . '/' . $fname . '.dat');
+        if ($this->file_data) {
+            $filename = $dir . '/' . $this->file_data . '.dat';
+        } else {
+            $filename = $dir . '/' . $fname . '.dat';
+        }
+        $data = Storage::load($filename);
         $this->data = $this->decode_data($data);
     }
 

@@ -3,7 +3,7 @@ namespace DevStudio\Core;
 
 use DevStudio\Data\PHP;
 use DevStudio\Data\MySQL;
-use DevStudio\Core\Storage;
+use DevStudio\Core\Cache;
 use DevStudio\Helpers\Utils;
 
 /**
@@ -47,7 +47,7 @@ class Info {
      * @return mixed
      */
     public static function page() {
-        $data = DevStudio()->app_load('page');
+        $data = DevStudio()->app_load('page', true, 'app');
     
         $rows = [];
         $rows[] = [
@@ -73,7 +73,7 @@ class Info {
      */
     public static function php() {
         $data = PHP::data();
-        $app_data = DevStudio()->app_load('php');
+        $app_data = DevStudio()->app_load('php', true, 'app');
         
         $rows = [];
         $rows[] = [
@@ -439,4 +439,69 @@ class Info {
         ]);
         return $html;
     }
+
+    /**
+     * Stats info block
+     *
+     *
+     * @return mixed
+     */
+    public static function stats() {
+        $stats = DevStudio()->app_load(DevStudio()->mode.'/stats');
+
+        $html = '';
+        $rows = [];
+        $total_data_time = $total_save_time = 0;
+        $size = 0;
+
+        if (isset($stats['data'])) {
+            foreach ($stats['data'] as $unit=>$data) {
+                if (isset($data['size'])) {
+                    $is_data_time = isset($data['data_start']) && isset($data['data_end']);
+                    $is_save_time = isset($data['save_start']) && isset($data['save_end']);
+
+                    $data_time = $is_data_time ? $data['data_end'] - $data['data_start']:0;
+                    $save_time = $is_save_time ? $data['save_end'] - $data['save_start']:0;
+
+                    $rows[] = [
+                        'cols' => [
+                            ['val' => $unit],
+                            ['val' => $is_data_time ? Utils::time($data_time, 5):''],
+                            ['val' => $is_save_time ? Utils::time($save_time, 5):''],
+                            ['val' => $is_data_time && $is_save_time ? Utils::time($data_time + $save_time, 5):'', 'style' => 'font-weight:bold'],
+                            ['val' => isset($data['size']) ? number_format($data['size']):'', 'style' => 'text-align:right'],
+                        ]
+                    ];
+                    $total_data_time += $data_time;
+                    $total_save_time += $save_time;
+                    $size += isset($data['size']) ? $data['size']:0;
+                }
+            }
+        }
+
+        $rows[] = [
+            'cols' => [
+                ['val' => __('Total', 'dev-studio'), 'style' => 'font-weight:bold'],
+                ['val' => Utils::time($total_data_time, 5), 'style' => 'font-weight:bold'],
+                ['val' => Utils::time($total_save_time, 5), 'style' => 'font-weight:bold'],
+                ['val' => Utils::time($total_data_time + $total_save_time, 5), 'style' => 'font-weight:bold'],
+                ['val' => number_format($size), 'style' => 'font-weight:bold;text-align:right'],
+            ]
+        ];
+
+        $html .= '<div class="title">'. __('Storage statistics', 'dev-studio').'</div>';
+        $html .= DevStudio()->template('data/table', [
+            'headers' => [
+                ['title' => __('File', 'dev-studio')],
+                ['title' => __('Data Time', 'dev-studio')],
+                ['title' => __('Save Time', 'dev-studio')],
+                ['title' => __('Total Time', 'dev-studio')],
+                ['title' => __('Size', 'dev-studio')],
+            ],
+            'rows' => $rows
+        ]);
+
+        return $html;
+    }
+
 }

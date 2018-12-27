@@ -87,7 +87,9 @@
         font-weight:bold;
         padding-top:12px !important;
       }
-
+      &.mask {
+        color: #999 !important;
+      }
     }
     th {
       background-color:#eee;

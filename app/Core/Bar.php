@@ -28,7 +28,7 @@ class Bar {
      */
     public function bar_data() {
         // Get page data
-        $data = DevStudio()->app_load('page');
+        $data = DevStudio()->app_load('page', true, 'app');
         $items = DevStudio()->options()['bar']['items'];
 
         $html = '';

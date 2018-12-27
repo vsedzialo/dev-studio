@@ -26,11 +26,11 @@
   color:$ds-color;
   font-size:13px;
 
-  * {
+  div {
     box-sizing: border-box;
   }
 
-  *:not(.fa) {
+  div, span:not(.fa), td {
     font-family: 'Roboto',sans-serif !important;
     color:$ds-color;
   }

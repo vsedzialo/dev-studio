@@ -22,7 +22,9 @@ body {
       #dev-studio-bar {
         height: $ds-bar-height;
         .ds-bar-inner {
+          font-size:13px;
           height: $ds-bar-height;
+          line-height: 1.4em;
         }
       }
       #wpwrap {

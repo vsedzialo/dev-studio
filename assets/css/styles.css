@@ -169,7 +169,9 @@ body.ds-bar-expand #dev-studio-bar {
   height: 26px;
 }
 body.ds-bar-expand #dev-studio-bar .ds-bar-inner {
+  font-size: 13px;
   height: 26px;
+  line-height: 1.4em;
 }
 body.ds-bar-expand #wpwrap #adminmenuwrap {
   padding-top: 26px;
@@ -493,7 +495,7 @@ body.ds-bar-expand #wpwrap #wpbody {
   display: flex;
   border-bottom: 1px #f2f2f2 solid;
   margin-bottom: 5px;
-  padding-bottom: 5px;
+  padding: 3px 0 5px 3px;
 }
 #dev-studio #dev-studio-data .ds-panel .ds-filter {
   display: flex;
@@ -695,6 +697,9 @@ body.ds-bar-expand #wpwrap #wpbody {
 #dev-studio .data-table td.subtitle {
   font-weight: bold;
   padding-top: 12px !important;
+}
+#dev-studio .data-table td.mask {
+  color: #999 !important;
 }
 #dev-studio .data-table th {
   background-color: #eee;
@@ -1293,15 +1298,15 @@ body.ds-bar-expand #wpwrap #wpbody {
   background-color: #eee;
   z-index: 9998;
   display: none;
-  color: #555;
+  color: #444;
   font-size: 13px;
 }
-#dev-studio * {
+#dev-studio div {
   box-sizing: border-box;
 }
-#dev-studio *:not(.fa) {
+#dev-studio div, #dev-studio span:not(.fa), #dev-studio td {
   font-family: "Roboto", sans-serif !important;
-  color: #555;
+  color: #444;
 }
 #dev-studio.ds-show {
   display: flex;
