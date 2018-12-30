@@ -38,8 +38,8 @@
                         // Value
                         if (is_array($col['val'])) {
 
-                            echo '<span class="data-info" data-id="'.$id.'">...Details...</span>';
-                            echo '<div id="data-'.$id.'" style="display:none"><pre>';
+                            echo '<span class="data-info" data-id="'.esc_attr($id).'">...Details...</span>';
+                            echo '<div id="data-'.esc_attr($id).'" style="display:none"><pre>';
                             print_r($col['val']);
                             echo '</pre></div>';
                         } else {

@@ -33,7 +33,7 @@ if (!class_exists( 'AVA_Field_Icons' )) {
             if (!empty($this->params['data']) && is_array($this->params['data'])) {
                 foreach($this->params['data'] as $key=>$icons) {
                     if (isset($icons['title'])) {
-                        $this->html .= '<div class="avaf-icons-title">'.$icons['title'].'</div>';
+                        $this->html .= '<div class="avaf-icons-title">'.wp_kses_post($icons['title']).'</div>';
                         $icons = isset($icons['icons']) && is_array($icons['icons']) ? $icons['icons']:[];
                     }
                     $this->html .= '<div class="avaf-icons-list">';

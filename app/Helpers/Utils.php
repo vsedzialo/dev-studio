@@ -92,7 +92,6 @@ class Utils {
 		foreach(DevStudio()->modules() as $module_name=>$module) {
 			foreach ( $module->components() as $component_name => $component ) {
 				foreach ( $component->units() as $unit_name => $unit ) {
-				    //$slug = $module_name.'.'.$component_name.'.'.$unit_name;
 
                     if (empty($data[ $module_name ])) {
                         $data[ $module_name ] = [
@@ -621,11 +620,15 @@ class Utils {
     }
 
     public static function collect() {
+        
+        // Don't collect data when plugin deactivated
+        if (isset($_REQUEST['action']) && $_REQUEST['action']==='deactivate' && preg_match('#/dev\-studio\.php$#', $_REQUEST['plugin'])) return false;
+        
         return  DevStudio()->enabled() &&
                 !DevStudio()->me() &&
                 !Utils::exclude_wp_ajax() &&
-                !isset($_REQUEST['doing_wp_cron']);
-
+                !isset($_REQUEST['doing_wp_cron']) &&
+                !preg_match('#\.map$#', $_SERVER['REQUEST_URI']);
     }
 
 }

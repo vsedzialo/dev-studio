@@ -14,8 +14,6 @@ use DevStudio\Core\Utilities;
 use DevStudio\Data\Wordpress;
 use DevStudio\Data\WooCommerce;
 
-$shutdown = 0;
-
 /**
  * Dev Studio main class
  *
@@ -38,7 +36,7 @@ class DevStudio {
     public $access = false;
     public $bar_access = false;
     public $stats = [];
-    public $shutdown = false;
+    public $nonce_key;
 
     public $default_options = [
         'general' => [
@@ -175,6 +173,7 @@ class DevStudio {
 
         // Init options
         $this->options();
+        $this->nonce_key = defined(NONCE_SALT) ? NONCE_SALT : 'dev-studio-nonce';
         
         // Register activation hook
         if ( function_exists( 'register_activation_hook' ) ) {
@@ -204,7 +203,7 @@ class DevStudio {
 
         // Define current mode
         if (!empty($_REQUEST['mode']) && in_array($_REQUEST['mode'], $this->modes)) {
-            $this->mode = $_REQUEST['mode'];
+            $this->mode = sanitize_text_field($_REQUEST['mode']);
         } else {
             $this->mode = (!Utils::is_ajax() ? '' : 'ajax_') . (!Utils::is_admin() ? 'public' : 'admin');
         }
@@ -234,7 +233,6 @@ class DevStudio {
         $this->checkpoint = new Checkpoint($this->mode, $this->options());
         $this->settings   = new Settings($this->options());
         $this->bar        = new Bar();
-        $this->utilities  = new Utilities();
 
         //
         if (!(isset($_REQUEST['action']) && $_REQUEST['action'] === 'dev_studio_test')) {
@@ -335,11 +333,15 @@ class DevStudio {
      * @since 1.0.0
      */
     public function ajax() {
+        
+        check_ajax_referer( $this->nonce_key, 'security' );
+        
         $response = [
             'result' => 'ok',
-            '_REQUEST' => $_REQUEST
         ];
-        switch ( $_REQUEST['request'] ) {
+        $request = sanitize_text_field($_REQUEST['request']);
+        
+        switch ( $request ) {
             case 'test':
                 break;
             case 'UI':
@@ -347,7 +349,7 @@ class DevStudio {
                 break;
             case 'enabled':
                 $options = $this->options();
-                $options['general']['enabled'] = $_REQUEST['enabled'];
+                $options['general']['enabled'] = sanitize_text_field($_REQUEST['enabled']);
                 $this->save_options($options);
                 break;
             case 'bar':
@@ -358,65 +360,31 @@ class DevStudio {
                 $response['html'] = $this->checkpoint->load_data();
                 break;
             case 'info':
-                $response['html'] = Info::html($_REQUEST['type']);
+                $response['html'] = Info::html(sanitize_text_field($_REQUEST['type']));
                 break;
             case 'actions':
                 $response['html'] = $this->template->load( 'actions', [
-                    'mode' => $_REQUEST['mode']
+                    'mode' => sanitize_text_field($_REQUEST['mode'])
                 ]);
-                //$response['html'] = '333';
-
                 break;
             case 'checkpoints':
                 if (!empty($_REQUEST['cp'])) {
                     $options = $this->options();
                     $opts = [];
-                    foreach(explode('::', $_REQUEST['cp']) as $action) {
+                    foreach(explode('::', sanitize_text_field($_REQUEST['cp'])) as $action) {
                         $opts[$action] = [];
                     }
-                    $options['checkpoints']['actions'][$_REQUEST['mode']] = $opts;
+                    $options['checkpoints']['actions'][sanitize_text_field($_REQUEST['mode'])] = $opts;
                     $this->save_options($options);
                 }
                 $response['opts'] = $opts;
                 $response['options'] = $options;
-                break;
-            case 'features':
-                switch ( $_REQUEST['feature'] ) {
-                    case 'data_info':
-                        $options = $this->options();
-                        $options['data_info'] = $_REQUEST['value'];
-                        $this->save_options($options);
-                        $response['options'] = $options;
-                    break;
-                }
                 break;
             case 'settings':
                 $response['html'] = $this->app_load('settings', true, 'app');
                 break;
             case 'stats':
                 $response['html'] = Info::stats();
-                break;
-
-            case 'utility':
-                $response = array_merge_recursive($response, $this->utilities->load($_REQUEST['utility'], isset($_REQUEST['page']) ? $_REQUEST['page']:null));
-                break;
-            case 'utility_enable':
-                $options = DevStudio()->options();
-                if (!isset($options['utilities'][$_REQUEST['utility']]) || !is_array($options['utilities'][$_REQUEST['utility']])) {
-                    $options['utilities'] = [];
-                }
-                $options['utilities'][$_REQUEST['utility']]['enabled'] = 'yes';
-    
-                if (isset($_REQUEST['args'])) {
-                    $options['utilities'][$_REQUEST['utility']]['args'] = array_merge(
-                        !empty($options['utilities'][$_REQUEST['utility']]['args']) ? $options['utilities'][$_REQUEST['utility']]['args']:[],
-                        $_REQUEST['args']
-                    );
-                }
-                //$options['utilities'][$_REQUEST['utility']]['args'] = [];
-                $response['options'] = $options;
-                
-                DevStudio()->save_options($options);
                 break;
         }
 
@@ -571,10 +539,9 @@ class DevStudio {
         /* Add to admin bar */
         $wp_admin_bar->add_menu( [
             'id'    => 'dev-studio',
-            'title' => __( '<img src="'.$this->url('assets').'images/logo-sm.png">Dev Studio', 'dev-studio' ),
+            'title' => __( '<img src="'.esc_url($this->url('assets')).'images/logo-sm.png">Dev Studio', 'dev-studio' ),
             'href'  => admin_url( 'admin.php?page=dev_studio_options' ),
             'meta'   => [
-                //'html'     => '<img src="'.$this->url('assets').'images/logo-sm.png">',
                 'class'    => 'ds-admin-bar',
             ]
         ] );
@@ -647,10 +614,7 @@ class DevStudio {
             case 'storage':
                 if ( function_exists( 'wp_get_upload_dir' ) ) {
                     $upload_dir = wp_get_upload_dir();
-
                     return $upload_dir['basedir'] . '/dev-studio/';
-                } else {
-                    return ABSPATH . 'wp-content/uploads/dev-studio/';
                 }
                 break;
             default:
@@ -692,9 +656,6 @@ class DevStudio {
         if ( empty( $this->checkpoints() ) ) {
             $this->checkpoint->add( 'shutdown' );
         }
-
-        // Save crypt options
-        //Storage::update_crypt_data();
     }
 
     /**
@@ -767,9 +728,6 @@ class DevStudio {
             if ($condition==='true' && !in_array($func, WooCommerce::$disabled)) $true[] = $func;
         }
         $data['wc_conditionals'] = $true;
-
-        //$data['REQUEST'] = $_REQUEST;
-        //$data['DOING_AJAX'] = defined('DOING_AJAX') ? DOING_AJAX : null;
 
         $this->app_save('page', $data);
     }
@@ -972,8 +930,9 @@ function load_assets() {
     wp_enqueue_script( 'tippy', DevStudio()->url() . 'assets/libs/tippy/tippy.all.min.js' );
     wp_enqueue_script( 'dev-studio', DevStudio()->url() . 'assets/js/scripts.js', [ 'jquery' ] );
     $data = [
-        'ajax_url' => '/wp-admin/admin-ajax.php',
-        'mode'     => DevStudio()->mode
+        'ajax_url'   => '/wp-admin/admin-ajax.php',
+        'ajax_nonce' => wp_create_nonce(DevStudio()->nonce_key),
+        'mode'       => DevStudio()->mode
     ];
     
     $data['map'] = DevStudio()->map;

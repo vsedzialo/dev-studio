@@ -81,13 +81,13 @@ if (!empty($data['headers'])) {
                 $order_type = ' data-otype="'.esc_attr($data['order'][$key]['type']).'"';
             }
             
-            $order = '<span class="ds-order fa '.$fa_class.'"></span>';
+            $order = '<span class="ds-order fa '.esc_attr($fa_class).'"></span>';
         }
         
         if ($header['title']==='{empty}') {
-            $html .= '<th class="empty '.trim($order_class).'"'.$order_type.'>&nbsp;'.$order.'</th>';
+            $html .= '<th class="empty '.esc_attr(trim($order_class)).'"'.$order_type.'>&nbsp;'.$order.'</th>';
         } else {
-            $html .= '<th class="'.trim($order_class).'"'.$order_type.' noWrap>' . $header['title'] . $order.'</th>';
+            $html .= '<th class="'.esc_attr(trim($order_class)).'"'.$order_type.' noWrap>' . $header['title'] . $order.'</th>';
         }
     }
     $html .= '</thead>';

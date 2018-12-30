@@ -126,9 +126,9 @@ class Checkpoint {
      */
     public function load_data() {
 
-        $this->checkpoint = $_POST['checkpoint'];
+        $this->checkpoint = sanitize_text_field($_POST['checkpoint']);
 
-        $ex = explode( '.', $_POST['dot_unit'] );
+        $ex = explode( '.', sanitize_text_field($_POST['dot_unit']) );
 
         $map = DevStudio()->map;
         $modules = DevStudio()->modules;
@@ -141,17 +141,17 @@ class Checkpoint {
             if ($unit->type !== 'static') {
 
                 if ($unit->space === 'default') {
-                    $this->data_dir = DevStudio()->dir('storage') . 'data/' . $_POST['mode'] . '/' . $this->checkpoint;
+                    $this->data_dir = DevStudio()->dir('storage') . 'data/' . sanitize_text_field($_POST['mode']) . '/' . $this->checkpoint;
                 } else {
-                    $this->data_dir = DevStudio()->dir('storage') . 'data/' . $unit->space;
+                    $this->data_dir = DevStudio()->dir('storage') . 'data/' . sanitize_text_field($unit->space);
                 }
 
                 if ($unit->file_data) {
-                    $filename = $this->data_dir . '/' . $unit->file_data . '.dat';
+                    $filename = $this->data_dir . '/' . sanitize_text_field($unit->file_data) . '.dat';
                     $fname = $unit->file_data;
                 } else {
-                    $filename = $this->data_dir . '/' . $_POST['dot_unit'] . '.dat';
-                    $fname = $_POST['dot_unit'];
+                    $filename = $this->data_dir . '/' . sanitize_text_field($_POST['dot_unit']) . '.dat';
+                    $fname = sanitize_text_field($_POST['dot_unit']);
                 }
 
                 if ( file_exists( $filename ) ) {

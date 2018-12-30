@@ -30,10 +30,10 @@ class Container_Options extends \DS_AVAFields\Core\Abstracts\Container {
         foreach ( $this->sections as $section ) {
             foreach ( $section->fields as $field ) {
 
-                $value = isset( $_POST[ '_' . $field->id ] ) ? $_POST[ '_' . $field->id ] : $_POST[ $field->id ];
+                $value = isset( $_POST[ '_' . $field->id ] ) ? sanitize_text_field($_POST[ '_' . $field->id ]) : sanitize_text_field($_POST[ $field->id ]);
                 $value = $field->storage_value($value);
 
-                update_user_meta( $user_id, $field->id, $value );
+                update_user_meta( $user_id, sanitize_text_field($field->id), $value );
             }
         }
 

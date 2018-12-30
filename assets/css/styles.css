@@ -1304,7 +1304,7 @@ body.ds-bar-expand #wpwrap #wpbody {
 #dev-studio div {
   box-sizing: border-box;
 }
-#dev-studio div, #dev-studio span:not(.fa), #dev-studio td {
+#dev-studio div, #dev-studio span:not(.fa), #dev-studio td, #dev-studio select, #dev-studio input, #dev-studio textarea {
   font-family: "Roboto", sans-serif !important;
   color: #444;
 }

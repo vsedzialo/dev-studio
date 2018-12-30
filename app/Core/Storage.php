@@ -39,6 +39,7 @@ class Storage {
         file_put_contents($fname, $data);
 
         if (file_exists($fname)) {
+            @chmod( $fname, self::file_permission() );
             DevStudio()->stats['data'][$key]['size'] = filesize($fname);
         }
 
@@ -102,6 +103,17 @@ class Storage {
         self::mkdir($storage_dir . 'data');
         self::mkdir($storage_dir . 'data/' . $mode);
     }
+    
+    /**
+     * Remove all data
+     *
+     * @since 1.0.0
+     * @param string $mode
+     */
+    public static function remove_all_data() {
+        $storage_dir = DevStudio()->dir('storage');
+        self::rmdir( $storage_dir );
+    }
 
     /**
      * Create directories for checkpoint
@@ -130,7 +142,7 @@ class Storage {
      */
     public static function mkdir($dir) {
         if (!is_dir($dir)) {
-            @mkdir($dir, 755);
+            @mkdir($dir, self::directory_permission(), true);
         }
         if (is_dir($dir) && !file_exists($dir.'/index.html')) {
             self::file_put_contents($dir.'/index.html', '');
@@ -169,6 +181,29 @@ class Storage {
     public static function file_put_contents( $fname, $content ) {
         return file_put_contents( $fname, $content );
     }
+    
+    /**
+	 * Get directory permissions
+	 *
+	 * @return int
+	 */
+    public static function directory_permission() {
+		if ( defined( 'FS_CHMOD_DIR' ) ) {
+			return FS_CHMOD_DIR;
+		}
+		return 0755;
+	}
 
+	/**
+	 * Get file permissions
+	 *
+	 * @return int
+	 */
+	public static function file_permission() {
+		if ( defined( 'FS_CHMOD_FILE' ) ) {
+			return FS_CHMOD_FILE;
+		}
+		return 0644;
+	}
 
 }

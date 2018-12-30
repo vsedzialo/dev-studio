@@ -30,7 +30,7 @@
     box-sizing: border-box;
   }
 
-  div, span:not(.fa), td {
+  div, span:not(.fa), td, select, input, textarea {
     font-family: 'Roboto',sans-serif !important;
     color:$ds-color;
   }

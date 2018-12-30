@@ -30,7 +30,7 @@ class Template {
 
     function add_info_block($id, $val) {
         $html = '';
-        $html .= '<div id="info-'.$id.'" style="display:none">';
+        $html .= '<div id="info-'.esc_attr($id).'" style="display:none">';
         //$html .= '<h3></h3';
         if (is_array($val))
             $html .= '<pre class="array">'.print_r($val, true).'</pre>';

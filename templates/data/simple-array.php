@@ -25,7 +25,7 @@ $html .= '<div>';
         foreach($data['rows'] as $cols) {
             $html .= '<tr>';
                 if (!empty($row['info']) ) {
-                    $info .= '<div id="info-'.$id.'" style="display:none">'.$row['info'].'</div>';
+                    $info .= '<div id="info-'.esc_attr($id).'" style="display:none">'.$row['info'].'</div>';
                 }
 
                 foreach($cols as $col) {

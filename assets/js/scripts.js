@@ -723,7 +723,8 @@
         ajax: function (args, callback) {
             let data = {
                 action: 'dev_studio',
-                mode: this.mode()
+                mode: this.mode(),
+                _ajax_nonce: DSData.ajax_nonce
             }
             data = obj = Object.assign({}, data, args);
             //console.log( data );

@@ -1,7 +1,7 @@
 <?php
     $options = DevStudio()->options();
-    $mode = $_REQUEST['mode'];
-    $enabled = DevStudio()->options()['general']['enabled']=='yes' ? '':' ds-off';
+    $mode = sanitize_text_field($_REQUEST['mode']);
+    $enabled = DevStudio()->options()['general']['enabled']==='yes' ? '':' ds-off';
 ?>
 <div id="dev-studio" class="dev-studio<?php echo $enabled; ?>">
 

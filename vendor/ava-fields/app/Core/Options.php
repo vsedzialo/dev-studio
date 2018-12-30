@@ -40,26 +40,17 @@ class Options {
 
         $response = [
             'result' => 'ok',
-            '_REQUEST' => $_REQUEST,
         ];
 
-        $option_name = $_REQUEST['option_name'];
-        $response['$option_name'] = $option_name;
-
+        $option_name = sanitize_text_field($_REQUEST['option_name']);
         $options = $_REQUEST['options'];
-        $response['$options'] = $options;
 
-        $map = isset($_REQUEST['map']) ? $_REQUEST['map']: [];
+        $map = isset($_REQUEST['map']) ? $_REQUEST['map']:[];
 
-        if (isset($_REQUEST['option_format']) && $_REQUEST['option_format']=='json') {
-            $options = json_decode($_REQUEST['options']);
+        if (isset($_REQUEST['option_format']) && $_REQUEST['option_format']==='json') {
+            $options = json_decode(sanitize_text_field($_REQUEST['options']));
         }
         self::set_options( $option_name, $options, $map );
-
-        $response['option_name'] = $option_name;
-        $response['options'] = $options;
-        $response['avawcc_options'] = get_option('avawcc_options');
-        $response['dev_studio_options'] = get_option('dev_studio_options');
 
         wp_send_json($response);
         exit;

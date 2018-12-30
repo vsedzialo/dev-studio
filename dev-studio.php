@@ -12,8 +12,10 @@
  * Description: Development environment for Wordpress developers
  * Version:     1.0.0
  * Plugin URI:  https://wordpress.org/plugins/dev-studio/
- * Author:      Viktor Sedzialo <viktor.sedzialo@gmail.com>
+ * Author:      SolidBunch <solidbunch@gmail.com>
+ * Author URI:  https://solidbunch.com
  * Text Domain: dev-studio
+ * Requires PHP: 7.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,6 +69,10 @@ spl_autoload_register( function ( $class ) {
         require $file;
     }
 } );
+
+register_deactivation_hook( __FILE__, function() {
+    \DevStudio\Core\Storage::remove_all_data();
+});
 
 if ( ! function_exists( 'DevStudio' ) ) {
 	function DevStudio() {
