@@ -20,6 +20,7 @@
       left:7px;
       right:7px;
       font-size:12px;
+      line-height: 1.6em;
       div {
         position:absolute;
         display:inline-block;
@@ -27,11 +28,12 @@
       }
       .ds-on {
         left:0;
+        line-height: 1.5em;
       }
       .ds-off {
         right:2px;
+        line-height: 1.5em;
       }
-
     }
     .ds-slider {
       border-radius:3px;

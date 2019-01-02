@@ -865,14 +865,14 @@ class DevStudio {
      */
     public function access($type=null) {
 
-        if ( !is_user_logged_in() ) {
+        if ( !get_current_user_id() ) {
             $this->access = false;
             return false;
         }
 
         // Only for administrators
         if (isset($this->options()['general']['access']['only_admin']) && $this->options()['general']['access']['only_admin'] === 'yes') {
-            if ( !is_user_logged_in() ) {
+            if ( !get_current_user_id() ) {
                 $this->access = false;
                 return false;
             }
@@ -885,7 +885,7 @@ class DevStudio {
         
         if ($type === 'bar') {
             if (isset($this->options()['bar']['only_logged_in']) && $this->options()['bar']['only_logged_in'] === 'yes') {
-                if ( !is_user_logged_in() ) return;
+                if ( !get_current_user_id() ) return;
             }
             $this->bar_access = true;
             return true;

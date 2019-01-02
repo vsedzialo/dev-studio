@@ -41,6 +41,7 @@ body {
 
 #dev-studio-bar {
   height:0;
+  display:flex;
   position: fixed;
   width: 100%;
   left: 0;
@@ -48,8 +49,9 @@ body {
   border-top:0 $ds-color-light-blue solid;
   background-color:$ds-color-blue;
 
-  *:not(.fa) {
+  div, span:not(.fa), td, select, input, textarea {
     font-family: 'Roboto',sans-serif !important;
+    line-height:1em;
   }
 
   .ds-bar-icon {
@@ -79,17 +81,24 @@ body {
       display:block;
     }
   }
+  .ds-bar-ds {
+    padding:4px 5px 0 4px;
+    background-color:#016797;
+    height:26px;
+    cursor:pointer;
+    line-height: 0;
+  }
   .ds-bar-inner {
     overflow:hidden;
     background-color:$ds-color-blue;
     height:0;
-    line-height: 1.2em;
 
     > div {
       color:#fff;
       display:inline-block;
       padding:4px 7px 0 7px;
       font-size:13px;
+      line-height: 1.4em;
       .fa {
         padding-right: 3px;
         font-size:13px;

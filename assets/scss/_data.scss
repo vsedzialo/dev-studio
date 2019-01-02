@@ -63,11 +63,12 @@
     h2 {
       font-size:15px;
       padding:5px 10px;
+      line-height: 1.4em;
     }
     h3 {
       font-size:13px;
       padding:4px 8px;
-
+      line-height: 1.4em
     }
     .message {
       display:inline-block;
@@ -114,6 +115,7 @@
         font-size: 100% !important;
         padding:4px 6px !important;
         color:#333 !important;
+        line-height:1.4em;
       }
       h2 {
         border:0 !important;

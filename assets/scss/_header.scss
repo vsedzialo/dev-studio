@@ -21,6 +21,7 @@
         cursor:pointer;
         height:40px;
         max-height:40px;
+        line-height: 1.6em;
 
         &.ds-active,
         &:not(.ds-active):hover {
@@ -41,6 +42,7 @@
           padding:4px 7px;
           border-radius:2px;
           color:#666;
+          line-height: 1.5em;
           &:hover {
             background-color: #eee;
           }

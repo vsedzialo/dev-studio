@@ -43,17 +43,11 @@
                 //}
 
                 // Show/Hide UI
-                $('body').on('click', '#wp-admin-bar-dev-studio a', function (e) {
+                $('body').on('click', '#dev-studio-bar .ds-bar-ds, #wp-admin-bar-dev-studio a', function (e) {
                     e.preventDefault();
 
                     DevStudio.setUIPosition();
                     $('#dev-studio').toggleClass('ds-show');
-
-                    // Show on full screen
-                    //this.setUIPosition();
-                    //DevStudio.buildUI();
-                    //$('#dev-studio').toggleClass('ds-show');
-                    //DevStudio.loadData();
 
                     //DevStudio.UI()
                     DevStudio.buildUI();
