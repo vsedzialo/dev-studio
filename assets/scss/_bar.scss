@@ -4,7 +4,9 @@ body {
     &.wp-admin {
       #dev-studio-bar {
         top: 32px;
-
+        @media only screen and (max-width: 782px) {
+          top:46px;
+        }
         &.expand {
         }
       }
@@ -14,6 +16,9 @@ body {
       &.admin-bar {
         #dev-studio-bar {
           top: 32px;
+          @media only screen and (max-width: 782px) {
+            top:46px;
+          }
         }
       }
     }
@@ -21,7 +26,7 @@ body {
     &.ds-bar-expand {
       #dev-studio-bar {
         height: $ds-bar-height;
-        .ds-bar-inner {
+        .ds-bar-wrap {
           font-size:13px;
           height: $ds-bar-height;
           line-height: 1.4em;
@@ -45,6 +50,7 @@ body {
   position: fixed;
   width: 100%;
   left: 0;
+  top:0;
   z-index: 9999;
   border-top:0 $ds-color-light-blue solid;
   background-color:$ds-color-blue;
@@ -81,27 +87,36 @@ body {
       display:block;
     }
   }
-  .ds-bar-ds {
-    padding:4px 5px 0 4px;
-    background-color:#016797;
-    height:26px;
-    cursor:pointer;
-    line-height: 0;
-  }
-  .ds-bar-inner {
-    overflow:hidden;
-    background-color:$ds-color-blue;
-    height:0;
+  .ds-bar-wrap {
+    display: flex;
+    height: 0;
+    overflow: hidden;
 
-    > div {
-      color:#fff;
-      display:inline-block;
-      padding:4px 7px 0 7px;
-      font-size:13px;
-      line-height: 1.4em;
-      .fa {
-        padding-right: 3px;
-        font-size:13px;
+    .ds-bar-ds {
+      padding: 4px 5px 0 4px;
+      background-color: #016797;
+      height: 26px;
+      cursor: pointer;
+      line-height: 0;
+      img {
+        width:17px !important;
+        height:17px !important;
+        max-width: none;
+        max-height: none;
+      }
+    }
+    .ds-bar-inner {
+
+      > div {
+        color: #fff;
+        display: inline-block;
+        padding: 4px 7px 0 7px;
+        font-size: 13px;
+        line-height: 1.4em;
+        .fa {
+          padding-right: 3px;
+          font-size: 13px;
+        }
       }
     }
   }

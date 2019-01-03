@@ -13,7 +13,7 @@ Development environment for Wordpress developers
 
 == Description ==
 
-Dev Studio is a development enviroment for Wordpress developers.
+Dev Studio is a development environment for Wordpress developers.
 
 It contains a lot of features that help to examine and analyze code.
 

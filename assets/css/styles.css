@@ -162,13 +162,23 @@
 body.wp-admin #dev-studio-bar {
   top: 32px;
 }
+@media only screen and (max-width: 782px) {
+  body.wp-admin #dev-studio-bar {
+    top: 46px;
+  }
+}
 body:not(.wp-admin).admin-bar #dev-studio-bar {
   top: 32px;
+}
+@media only screen and (max-width: 782px) {
+  body:not(.wp-admin).admin-bar #dev-studio-bar {
+    top: 46px;
+  }
 }
 body.ds-bar-expand #dev-studio-bar {
   height: 26px;
 }
-body.ds-bar-expand #dev-studio-bar .ds-bar-inner {
+body.ds-bar-expand #dev-studio-bar .ds-bar-wrap {
   font-size: 13px;
   height: 26px;
   line-height: 1.4em;
@@ -186,6 +196,7 @@ body.ds-bar-expand #wpwrap #wpbody {
   position: fixed;
   width: 100%;
   left: 0;
+  top: 0;
   z-index: 9999;
   border-top: 0 #59bef8 solid;
   background-color: #0073aa;
@@ -219,26 +230,32 @@ body.ds-bar-expand #wpwrap #wpbody {
   font-weight: normal !important;
   display: block;
 }
-#dev-studio-bar .ds-bar-ds {
+#dev-studio-bar .ds-bar-wrap {
+  display: flex;
+  height: 0;
+  overflow: hidden;
+}
+#dev-studio-bar .ds-bar-wrap .ds-bar-ds {
   padding: 4px 5px 0 4px;
   background-color: #016797;
   height: 26px;
   cursor: pointer;
   line-height: 0;
 }
-#dev-studio-bar .ds-bar-inner {
-  overflow: hidden;
-  background-color: #0073aa;
-  height: 0;
+#dev-studio-bar .ds-bar-wrap .ds-bar-ds img {
+  width: 17px !important;
+  height: 17px !important;
+  max-width: none;
+  max-height: none;
 }
-#dev-studio-bar .ds-bar-inner > div {
+#dev-studio-bar .ds-bar-wrap .ds-bar-inner > div {
   color: #fff;
   display: inline-block;
   padding: 4px 7px 0 7px;
   font-size: 13px;
   line-height: 1.4em;
 }
-#dev-studio-bar .ds-bar-inner > div .fa {
+#dev-studio-bar .ds-bar-wrap .ds-bar-inner > div .fa {
   padding-right: 3px;
   font-size: 13px;
 }
